@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8" />
+    <!-- <title>Responsive Sidebar Menu</title> -->
+
+    <link rel="stylesheet" href="style.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+    />
+    <link rel="stylesheet" href="css/sidebar.css" />
+    <link rel="stylesheet" href="css/payment_pages.css" />
+  </head>
+
+  <body>
+    <!-- Sidebar -->
+    <input type="checkbox" id="check" />
+    <label for="check">
+      <i class="fas fa-bars" id="btn"></i>
+      <i class="fas fa-times" id="cancel"></i>
+    </label>
+    <div class="sidebar">
+      <header>Account Name</header>
+      <a href="home.html">
+        <i class="fas fa-home"></i>
+        <span>Home</span>
+      </a>
+      <a href="payment_pages.html" class="active">
+        <i class="fas fa-cube"></i>
+        <span>Payment Pages</span>
+      </a>
+      <a href="transactions.html">
+        <i class="fas fa-stream"></i>
+        <span>Transactions</span>
+      </a>
+      <a href="transfer.html">
+        <i class="far fa-paper-plane"></i>
+        <span>Transfers</span>
+      </a>
+      <a href="balance.html">
+        <i class="fas fa-wallet"></i>
+        <span>Balance</span>
+      </a>
+    </div>
+
+    <!-- Header -->
+
+    <div class="header">
+      <h3>Payment Pages</h3>
+    </div>
+
+    <div class="page-header">
+      <div>
+        <span>Filter</span>
+        <span>
+          <input type="text" placeholder="Search Page" />
+        </span>
+      </div>
+      <button
+        onclick="document.getElementById('popup1').style.display='block'"
+        class="new-page-button"
+      >
+        <span>+</span> New Page
+      </button>
+    </div>
+
+    <!-- Pages -->
+    <section>
+      <table>
+        <tr>
+          <th><i class="fas fa-circle" style="font-size: 10px"></i></th>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Amount</th>
+          <th>Created</th>
+          <th>Link</th>
+        </tr>
+      </table>
+    </section>
+
+    <!-- Mew Payment Page Form -->
+    <div class="popup" id="popup1">
+      <div class="content">
+        <div
+          onclick="document.getElementById('popup1').style.display='none'"
+          class="close-btn"
+        >
+          X
+        </div>
+        <h4>New Payment Page</h4>
+
+        <hr color="black" />
+        <!-- Form Fields -->
+        <form>
+          <div class="form-element">
+            <label>Page name</label>
+            <input type="text" placeholder="Name of your page" required />
+          </div>
+
+          <div class="form-element">
+            <label>Description</label>
+            <input
+              type="text"
+              placeholder="Page description or extra instructions"
+            />
+          </div>
+
+          <div class="form-element">
+            <label>SEO Image(Optional)</label>
+            <p>
+              This image will show when the page is shared on social media. We
+              recommend a 1024 x 512 pixel JPG or PNG, under 1 MB in size.
+            </p>
+            <input type="file" name="seo-image" />
+          </div>
+
+          <div style>
+            <input type="checkbox" />
+            <span class="checkbox-label"
+              >I want a fixed payment amount on this page</span
+            >
+          </div>
+
+          <div style="margin-top: 10px">
+            <input type="checkbox" />
+            <span class="checkbox-label"
+              >Collect phone numbers on this page</span
+            >
+          </div>
+
+          <div class="form-element">
+            <label>Currency</label>
+            <select name="currency" class="currency-select" required="">
+              <option value="0">NGN</option>
+              <option value="1">USD</option>
+            </select>
+          </div>
+
+          <div class="form-element">
+            <label>Use your custom link</label>
+            <div class="inline-input">
+              <input
+                type="text"
+                placeholder="https://tunepay.com/pay/"
+                disabled
+              />
+              <input type="text" placeholder="[your-url]" />
+            </div>
+          </div>
+
+          <div class="form-element">
+            <label>Redirect after payment</label>
+            <input type="text" placeholder="http://redirect.link" />
+          </div>
+
+          <div class="form-element">
+            <label>Success Message</label>
+            <input type="text" placeholder="Message to show after payment" />
+          </div>
+
+          <div class="form-element">
+            <label>Send Notifications To</label>
+            <p>If provided, this email address will get transaction notices</p>
+            <input type="text" placeholder="Email address" />
+          </div>
+
+          <label>Do you want to collect any extra information?</label>
+          <div class="inline-input">
+            <input type="text" placeholder="Name of field" disabled />
+            <input type="text" placeholder="e.g ID Number" />
+          </div>
+        </form>
+        <!-- <a class="add-field">+ Add Another Field </a> -->
+
+        <footer>
+          <button
+            onclick="document.getElementById('popup1').style.display='none'"
+            class="footer-cancel"
+          >
+            Cancel
+          </button>
+
+          <button class="new-page-button">Create</button>
+        </footer>
+      </div>
+    </div>
+
+    <script
+      src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+      integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+      integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+      integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>
