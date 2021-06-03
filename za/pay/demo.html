@@ -1,0 +1,389 @@
+
+    
+
+                        		
+                        
+    
+<!DOCTYPE html>
+<html lang="en">
+
+
+<!-- Mirrored from paystack.com/za/pay/demo by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 May 2021 15:47:37 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+    <meta charset="utf-8">
+    <meta name="robots" content="noindex">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"/> <!--320-->
+        <link rel="shortcut icon" type="image/x-icon" href="../assets/payment/img/favicon.html" />
+    <link href="../assets/payment/css/pages-dependencies.html" rel="stylesheet">
+    <link href="../assets/payment/css/pages.html" rel="stylesheet">
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <!--TRACKING-->
+
+    <!--TRACKING END-->
+<title>TunePay - Pay for Demo - TunePay</title><meta name="generator" content="SEOmatic">
+<meta name="description" content="Enter an amount you can afford to give away">
+<meta name="referrer" content="no-referrer-when-downgrade">
+<meta name="robots" content="all">
+<meta content="en_ZA" property="og:locale">
+<meta content="en_ZA" property="og:locale:alternate">
+<meta content="en_GH" property="og:locale:alternate">
+<meta content="en_US" property="og:locale:alternate">
+<meta content="TunePay" property="og:site_name">
+<meta content="website" property="og:type">
+<meta content="https://paystack.com/za/pay/demo" property="og:url">
+<meta content="Pay for Demo - TunePay" property="og:title">
+<meta content="Enter an amount you can afford to give away" property="og:description">
+<meta content="https://paystack.com/za/public/opengraph.png" property="og:image">
+<link href="demo.html" rel="canonical">
+<link href="../index.html" rel="home">
+<link type="text/plain" href="../humans.txt" rel="author">
+<link href="demo.html" rel="alternate" hreflang="en-za">
+<link href="../../gh/pay/demo.html" rel="alternate" hreflang="en-gh">
+<link href="../../pay/demo.html" rel="alternate" hreflang="x-default">
+<link href="../../pay/demo.html" rel="alternate" hreflang="en-us"></head>
+
+<body class="paystack-container" style="display: none">
+    <div class="paystack-color-bar"></div>
+    								<div id="page-okay" class="paystack-wrapper animated fadeIn" style="display: none">
+            <div id="payment-page-pay" class="paystack-page">
+                <div class="header">
+                    <div class="company-logo">
+                        <img id="company-logo-img" src="#" alt="Business Logo">
+                    </div>
+                    <div class="page-info">
+                        <h3 id="page-name" class="page-name"></h3>
+                        <p class="company-name">BY <span id="company-name"></span></p>
+                    </div>
+                    <div class="page-description" style="display: none">
+                        <span id="page-description"></span>
+                    </div>
+                </div>
+                <div class="body">
+                    <form id="payment-form" name="payment-form" class="payment-form">
+                        <div class="error-message">
+                            <i class="fa fa-warning"></i><span></span>
+                        </div>
+                        <div class="element-pair">
+                            <div class="element-pair-container">
+                                <div class="element-wrap">
+                                    <div class="element-label"><span>First Name</span></div>
+                                    <input id="customer-first-name" type="text" class="element-is-input" data-validetta="required" required>
+                                </div>
+                                <div class="element-wrap">
+                                    <div class="element-label"><span>Last Name</span></div>
+                                    <input id="customer-last-name" type="text" class="element-is-input">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="element-wrap">
+                            <div class="element-label"><span>Email Address</span></div>
+                            <input id="customer-email" type="email" class="element-is-input" data-validetta="required,email" required>
+                        </div>
+                        <div id="phone-number" style="display: none" class="element-wrap">
+                            <div class="element-label"><span>Phone Number</span></div>
+                            <input id="customer-phone" type="tel" class="element-is-input" data-validetta="required,number" required>
+                        </div>
+                        <div class="element-pair">
+                            <div class="element-label"><span>Amount to charge</span></div>
+                            <div class="element-pair-container">
+                                <div class="element-wrap element-wrap-for-select element-wrap-on-left">
+                                    <select id="payment-currency-options" class="element-is-select" disabled="true">
+                                    </select>
+                                </div>
+                                <div class="element-wrap element-wrap-on-right">
+                                    <input id="payment-amount" type="text" class="element-is-input" data-validetta="required" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="custom-fields"></div>
+                        <div class="element-wrap element-wrap-for-submit">
+                            <button type="submit" id="pay-btn" class="button button-is-green">Pay Now</button>
+                        </div>
+                        <script src="../../../js.paystack.co/v2/inline.js"></script>
+                    </form>
+                                        <div id="payment-success" class="payment-success animated fadeIn text-center hidden">
+                        <img src="../assets/payment/img/success.html">
+                        <h3>Your payment was successful</h3>
+                        <h5 class="payment-success-message"></h5>
+                    </div>
+                    <div id="payment-pending" class="payment-pending animated fadeIn text-center hidden">
+                        <img src="../assets/payment/img/envelope.html">
+                        <h3>Your payment is almost complete!</h3>
+                        <h5>Once we receive your payment, we’ll complete your transaction and send you a receipt</h5>
+                    </div>
+                </div>
+						</div>
+
+						<div id="payment-page-product" class="paystack-page">
+							<div class="header">
+									<div class="company-logo">
+											<img id="company-logo-img" src="#" alt="Business Logo">
+									</div>
+									<div class="page-info">
+											<h3 id="page-name" class="page-name"></h3>
+											<p class="company-name">BY <span id="company-name"></span></p>
+									</div>
+									<div class="page-description" style="display: none">
+											<span id="page-description"></span>
+									</div>
+							</div>
+							<div class="body">
+									<div id="products" class="product-container" data-testid="product-container">
+																				</div>
+									<form id="payment-form" name="payment-form" class="payment-form" style="border-radius: 0 0 4px 4px">
+											<div class="error-message">
+													<i class="fa fa-warning"></i><span></span>
+											</div>
+											<div class="element-pair">
+													<div class="element-pair-container">
+															<div class="element-wrap">
+																	<div class="element-label"><span>First Name</span></div>
+																	<input id="customer-first-name" type="text" class="element-is-input" data-validetta="required" required>
+															</div>
+															<div class="element-wrap">
+																	<div class="element-label"><span>Last Name</span></div>
+																	<input id="customer-last-name" type="text" class="element-is-input" data-validetta="required" required>
+															</div>
+													</div>
+											</div>
+											<div class="element-wrap">
+													<div class="element-label"><span>Email Address</span></div>
+													<input id="customer-email" type="email" class="element-is-input" data-validetta="required,email" required>
+											</div>
+											<div id="phone-number" style="display: none" class="element-wrap">
+													<div class="element-label"><span>Phone Number</span></div>
+													<input id="customer-phone" type="tel" class="element-is-input" data-validetta="required,number" required>
+											</div>
+											<div id="custom-fields"></div>
+											<div class="element-wrap element-wrap-for-submit">
+													<button type="submit" id="pay-btn" class="button button-full button-is-green">Pay Now</button>
+											</div>
+											<script src="../../../js.paystack.co/v2/inline.js"></script>
+									</form>
+																		<div id="payment-success" class="payment-success animated fadeIn text-center hidden">
+                                        <img src="../assets/payment/img/success.html" alt="">
+                                        <h3>Your payment was successful</h3>
+                                        <h5 class="payment-success-message"></h5>
+                                    </div>
+                                    <div id="payment-pending" class="payment-pending animated fadeIn text-center hidden">
+                                        <img src="../assets/payment/img/envelope.html">
+                                        <h3>Your payment is almost complete!</h3>
+                                        <h5>Once we receive your payment, we’ll complete your transaction and send you a receipt</h5>
+                                    </div>
+							</div>
+						</div>
+
+            <div id="payment-page-subscribe" class="paystack-page">
+                <div class="header">
+                    <div class="company-logo">
+                        <img id="company-logo-img" src="#">
+                    </div>
+                    <div class="page-info">
+                        <h3 id="page-name" class="page-name"></h3>
+                        <p class="company-name">BY <span id="company-name"></span></p>
+                    </div>
+										<div class="page-description" style="display: none">
+											<span id="page-description"></span>
+										</div>
+                    <div class="plan-info">
+                        You will be charged
+                                                    NGN
+                            <span class="plan-amount" id="plan-amount"></span> <span id="plan-interval"></span>
+                        										</div>
+                </div>
+                <div class="body">
+                    <form id="payment-form" name="payment-form" class="payment-form">
+                        <div class="error-message">
+                            <i class="fa fa-warning"></i><span></span>
+                        </div>
+                        <div class="element-pair">
+                            <div class="element-pair-container">
+                                <div class="element-wrap">
+                                    <div class="element-label"><span>First Name</span></div>
+                                    <input id="customer-first-name" type="text" class="element-is-input" data-validetta="required" required>
+                                </div>
+                                <div class="element-wrap">
+                                    <div class="element-label"><span>Last Name</span></div>
+                                    <input id="customer-last-name" type="text" class="element-is-input">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="element-wrap">
+                            <div class="element-label"><span>Email Address</span></div>
+                            <input id="customer-email" type="email" class="element-is-input" data-validetta="required,email" required>
+                        </div>
+                        <div class="element-wrap" id="phone-number" style="display: none;">
+                            <div class="element-label"><span>Phone Number</span></div>
+                            <input id="customer-phone" type="tel" class="element-is-input" data-validetta="required,phone" required>
+                        </div>
+                        <div id="custom-fields"></div>
+                        <div class="element-wrap element-wrap-for-submit">
+                            <button type="submit" id="pay-btn" class="button button-is-green">Pay now and subscribe to this plan</button>
+                        </div>
+                        <script src="../../../js.paystack.co/v2/inline.js"></script>
+                    </form>
+                    <div id="payment-fineprint" class="fineprint">
+                                                We will always send you a confirmation email before charging so you can cancel at will.
+                                            </div>
+                    <div id="payment-success" class="payment-success animated fadeIn text-center hidden">
+                        <img src="../assets/payment/img/success.html" alt="">
+                        <h3>Your subscription was successful</h3>
+                        <h5 class="payment-success-message"></h5>
+                    </div>
+                    <div id="payment-pending" class="payment-pending animated fadeIn text-center hidden">
+                        <img src="../assets/payment/img/envelope.html">
+                        <h3>Your payment is almost complete!</h3>
+                        <h5>Once we receive your payment, we’ll complete your transaction and send you a receipt</h5>
+                    </div>
+                </div>
+            </div>
+            <div id="payment-page-plan" class="paystack-page">
+                <div class="header">
+                    <div class="company-logo">
+                        <img id="company-logo-img" src="#">
+                    </div>
+                    <div class="page-info">
+                        <h3 id="page-name" class="page-name"></h3>
+                        <p class="company-name">BY <span id="company-name"></span></p>
+                    </div>
+                    <div class="page-description" style="display: none">
+                        <span id="page-description"></span>
+                    </div>
+                </div>
+                <div class="body">
+                    <form id="payment-form" name="payment-form" class="payment-form">
+                        <div class="error-message">
+                            <i class="fa fa-warning"></i><span></span>
+                        </div>
+                        <div class="element-pair">
+                            <div class="element-pair-container">
+                                <div class="element-wrap">
+                                    <div class="element-label"><span>First Name</span></div>
+                                    <input id="customer-first-name" type="text" class="element-is-input" data-validetta="required" required>
+                                </div>
+                                <div class="element-wrap">
+                                    <div class="element-label"><span>Last Name</span></div>
+                                    <input id="customer-last-name" type="text" class="element-is-input">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="element-wrap">
+                            <div class="element-label"><span>Email Address</span></div>
+                            <input id="customer-email" type="email" class="element-is-input" data-validetta="required,email" required>
+                        </div>
+                        <div id="phone-number" style="display: none" class="element-wrap">
+                            <div class="element-label"><span>Phone Number</span></div>
+                            <input id="customer-phone" type="tel" class="element-is-input" data-validetta="required,phone" required>
+                        </div>
+                        <div class="element-pair element-pair-is-currency">
+                            <div class="element-label"><span>Amount to charge</span></div>
+                            <div class="element-pair-container">
+                                <div class="element-wrap element-wrap-for-select element-wrap-on-left">
+                                    <select id="payment-currency-options" class="element-is-select" disabled="true">
+                                        <option value="NGN">NGN</option>
+                                    </select>
+                                </div>
+                                <div class="element-wrap element-wrap-on-right">
+                                    <input id="payment-amount" type="text" class="element-is-input" data-validetta="required" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="element-pair">
+                            <div class="element-pair-container">
+                                <div class="element-wrap element-wrap-for-select" id="plan-interval-field">
+                                    <div class="element-label"><span>Interval</span></div>
+                                    <select id="plan-interval-options" class="element-is-select">
+                                        <option value="hourly">Hourly</option>
+                                        <option value="daily">Daily</option>
+                                        <option value="weekly" selected="true">Weekly</option>
+                                        <option value="quarterly">Quarterly</option>
+                                        <option value="monthly">Monthly</option>
+                                        <option value="biannually">Biannually</option>
+                                        <option value="annually">Annually</option>
+                                    </select>
+                                </div>
+                                <div class="element-wrap element-wrap-for-select" id="plan-limit-default">
+                                    <div class="element-label"><span>How many payments</span></div>
+                                    <select id="set-plan-limit" class="element-is-select">
+                                        <option value="indefintely">Charge me indefinitely</option>
+                                        <option value="limited">Set a limit</option>
+                                    </select>
+                                </div>
+                                <div class="element-wrap" id="plan-limit-active" style="display: none">
+                                    <div class="element-label"><span>How many payments</span></div>
+                                    <input id="plan-limit" type="text" class="element-is-input">
+                                    <span id="revert-plan-limit" class="element-icon element-icon-is-cancel"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="custom-fields"></div>
+                        <div id="payment-start-date" class="element-wrap" style="display: none;">
+                            <label class="element-label" for="change-payment-start-date-input">
+                                <input id="change-payment-start-date-input" type="checkbox"> Change my next charge date
+                            </label>
+                            <div id="change-payment-start-date" class="element-wrap" style="display: none;">
+                                <input id="plan-start-date" type="text" class="element-is-input" placeholder="Next Charge Date">
+                            </div>
+                        </div>
+                        <div class="element-wrap element-wrap-for-submit">
+                            <button type="submit" id="pay-btn" class="button button-is-wide button-is-green">Pay now and subscribe to this plan</button>
+                        </div>
+                        <script src="../../../js.paystack.co/v2/inline.js"></script>
+                    </form>
+                    <div id="payment-fineprint" class="fineprint">
+                                                We will always send you a confirmation email before charging so you can cancel at will.
+                                            </div>
+                    <div id="payment-success" class="payment-success animated fadeIn text-center hidden">
+                        <img src="../assets/payment/img/success.html" alt="">
+                        <h3>Your subscription was successful</h3>
+                        <h5 class="payment-success-message"></h5>
+                    </div>
+                    <div id="payment-pending" class="payment-pending animated fadeIn text-center hidden">
+                        <img src="../assets/payment/img/envelope.html">
+                        <h3>Your subscription is almost complete!</h3>
+                        <h5>Once we receive your payment, we’ll complete your subscription and send you a receipt</h5>
+                    </div>
+                </div>
+            </div>
+                    </div>
+                <div id="paystack-footer" class="paystack-footer animated fadeIn">
+            <a target="_blank" href="../../why-choose-paystack.html">
+                <img alt="TunePay secured badge" src="../../assets/payment/img/paystack-badge-cards-ngn.png" />
+            </a>
+        </div>
+    <script type="application/ld+json">{"@context":"http://schema.org","@graph":[{"@type":"WebSite","author":{"@id":"#identity"},"copyrightHolder":{"@id":"#identity"},"creator":{"@id":"#creator"},"description":"Enter an amount you can afford to give away","mainEntityOfPage":"https://paystack.com/za/pay/demo","name":"Pay for Demo - TunePay","url":"https://paystack.com/za/pay/demo"},{"@id":"#identity","@type":"Organization"},{"@id":"#creator","@type":"Organization"},{"@type":"BreadcrumbList","description":"Breadcrumbs list","itemListElement":[{"@type":"ListItem","item":"https://paystack.com/za/","name":"Home","position":1}],"name":"Breadcrumbs"}]}</script></body>
+
+<style>
+    .element-helper {
+        font-size: 13px;
+        color: #777;
+        margin-top: 5px;
+    }
+    .summary {
+        border-top: solid 1px #e6e6e6;
+        margin-top: 20px;
+        padding: 20px 0 0;
+    }
+    .summary p {
+        font-size: 14px;
+        font-weight: bold;
+        margin: 0;
+    }
+    .button-is-wide {
+        width: 100%;
+    }
+</style>
+<script src="../assets/payment/js/pages-dependencies.min.html"></script>
+<script src="../assets/payment/js/pages.min.html"></script>
+<script>
+    init({"ref":"zBZHmTdwCBKSPMd","id":1509,"name":"Demo","slug":"demo","description":"Enter an amount you can afford to give away","currency":"NGN","amount":0,"domain":"live","custom_fields":[],"collect_phone":false,"type":"payment","createdAt":"2016-08-23T22:39:41.000Z","integration":{"key":"pk_live_3223432j3328nmdsad233tIshFeQd4XMUh","name":"TunePay","logo":"https:\/\/pstk-integration-logos.s3-eu-west-1.amazonaws.com\/paystack_1b7e032d-bb8c-486f-92c5-97b56baf5950_100043_March_7_2019_1_52_pm","allowed_currencies":["NGN","USD"]},"metadata":null,"split_code":null}, "demo.html\/\/api.paystack.co");
+</script>
+
+
+
+<!-- Mirrored from paystack.com/za/pay/demo by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 May 2021 15:47:41 GMT -->
+</html>

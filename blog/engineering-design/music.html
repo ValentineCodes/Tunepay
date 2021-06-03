@@ -1,0 +1,635 @@
+   
+   <!DOCTYPE html>
+   <html lang="en">
+   
+		   		   
+<!-- Mirrored from paystack.com/blog/engineering-design/music by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 May 2021 15:31:13 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+		   <meta charset="utf-8">
+		   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+		   <meta http-equiv="X-UA-Compatible" content="ie=edge">
+		   <title>How we built it: Paystack Music - The Paystack Blog</title>
+		   <link rel="shortcut icon" type="image/x-icon" href="../favicon.png"/>
+		   <link rel="stylesheet" href="../public/assets/css/main.min.css">
+			 <script src="../public/assets/js/global.min.js"></script>
+			<!--[if lt IE 9]>
+				<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+				<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+			<![endif]-->
+								<!-- Global site tag (gtag.js) - Google Analytics -->
+					<script async src="https://www.googletagmanager.com/gtag/js?id=UA-105017042-6"></script>
+					<script>
+							window.dataLayer = window.dataLayer || [];
+							function gtag(){dataLayer.push(arguments);}
+							gtag('js', new Date());
+							gtag('config', 'UA-105017042-6');
+					</script>
+						<!--TRACKING-->
+			
+			<!--TRACKING END-->
+	   <title>How we built it: Paystack Music - The Paystack Blog</title><meta name="generator" content="SEOmatic">
+<meta name="keywords" content="paystack,online business,nigeria">
+<meta name="description" content="How we built automatic monthly mixtapes of all the music shared on Slack, using the Spotify and Slack APIs">
+<meta name="referrer" content="no-referrer-when-downgrade">
+<meta name="robots" content="all">
+<meta content="1963073953927815" property="fb:profile_id">
+<meta content="en_US" property="og:locale">
+<meta content="The Paystack Blog" property="og:site_name">
+<meta content="article" property="og:type">
+<meta content="https://paystack.com/blog/engineering-design/music" property="og:url">
+<meta content="How we built it: Paystack Music" property="og:title">
+<meta content="How we built automatic monthly mixtapes of all the music shared on Slack, using the Spotify and Slack APIs" property="og:description">
+<meta content="https://s3-eu-west-1.amazonaws.com/pstk-blog-staging/images/articles/CleanShot_2020-08-14_at_12.26.452x-1.jpg" property="og:image">
+<meta content="1500" property="og:image:width">
+<meta content="838" property="og:image:height">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@paystack">
+<meta name="twitter:creator" content="@paystack">
+<meta name="twitter:title" content="How we built it: Paystack Music">
+<meta name="twitter:description" content="How we built automatic monthly mixtapes of all the music shared on Slack, using the Spotify and Slack APIs">
+<meta name="twitter:image" content="https://s3-eu-west-1.amazonaws.com/pstk-blog-staging/images/articles/CleanShot_2020-08-14_at_12.26.452x-1.jpg">
+<meta name="twitter:image:width" content="1500">
+<meta name="twitter:image:height" content="838">
+<link href="music.html" rel="canonical">
+<link href="../../blog.html" rel="home"></head>
+      
+   	   <body>
+		   	    <nav class="nav-wrap" id="nav">
+        <div class="nav">
+            <div class="nav__left">
+                <a href="../index.html">
+                    <img src="../public/assets/images/logo/paystack-logo.svg" alt="Paystack logo">
+                </a>
+            </div>
+            <div class="nav__right">
+                <a class="button button--green" href="../ask.html">
+                    <span class="button__text">Ask the <span class="u-no-mobile">Paystack </span>Blog</span>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+	<article class="post">
+		<div class="container">
+		  <div class="post__header">
+    <div class="post__category">
+          <span class="post__category"><a href="../category/engineering-design.html">Engineering &amp; Design</a></span>
+
+      <span class="post__read-time">·
+        Aug 17, 2020</span>
+    </div>
+    <h1 class="post__title">How we built it: Paystack Music</h1>
+    <p class="post__sub-title">How we built automatic monthly mixtapes of all the music shared on Slack, using the Spotify and Slack APIs</p>
+  </div>
+
+												
+	<figure class="post__image-wrap">
+		<div class="post__image--feature">
+			<div class="post__image">
+								<img 
+					class="lazyload"
+					data-original="https://s3-eu-west-1.amazonaws.com/pstk-blog-staging/images/articles/CleanShot_2020-08-14_at_12.26.452x-1.jpg"
+					data-action="zoom" 
+					data-src="https://s3-eu-west-1.amazonaws.com/pstk-blog-staging/images/articles/CleanShot_2020-08-14_at_12.26.452x-1.jpg"
+										alt="Paystack Music">
+			</div>
+					</div>
+	</figure>
+
+							<main class="grid grid--with-gutters"> 
+			<aside class="grid__column grid__column--3" style="text-align: center">
+																									<div class="post__meta--bio">
+		<div class="post__author">
+			<div class="author__image">
+																					<img src="../../../s3-eu-west-1.amazonaws.com/pstk-blog-staging/images/authors/oluwaseeto.jpg" width="70px" height="70px" alt="Author's avatar" class="author__avatar lazyload">
+			</div>
+			<div class="author__info">
+								<div class="author__name">Oluwaseeto Tanimola</div>
+				<div class="author__role">Designer,
+					Paystack</div>
+							</div>
+		</div>
+	</div>
+
+																																					<div class="post__meta--bio">
+		<div class="post__author">
+			<div class="author__image">
+																					<img src="../../../s3-eu-west-1.amazonaws.com/pstk-blog-staging/images/authors/Tomi-Odusanya-2-1.jpg" width="70px" height="70px" alt="Author's avatar" class="author__avatar lazyload">
+			</div>
+			<div class="author__info">
+								<div class="author__name">Tomi Odusanya</div>
+				<div class="author__role">Web Designer,
+					Paystack</div>
+							</div>
+		</div>
+	</div>
+
+																																					<div class="post__meta--bio">
+		<div class="post__author">
+			<div class="author__image">
+																					<img src="../../../s3-eu-west-1.amazonaws.com/pstk-blog-staging/images/authors/Nicholas-Kajoh-1-1.jpg" width="70px" height="70px" alt="Author's avatar" class="author__avatar lazyload">
+			</div>
+			<div class="author__info">
+								<div class="author__name">Nicholas Kajoh</div>
+				<div class="author__role">Backend Engineer,
+					Paystack</div>
+							</div>
+		</div>
+	</div>
+
+																																					<div class="post__meta--bio">
+		<div class="post__author">
+			<div class="author__image">
+																					<img src="../../../s3-eu-west-1.amazonaws.com/pstk-blog-staging/images/authors/Ifeoluwa-Sobogun-1-1.jpg" width="70px" height="70px" alt="Author's avatar" class="author__avatar lazyload">
+			</div>
+			<div class="author__info">
+								<div class="author__name">Ifeoluwa Sobogun</div>
+				<div class="author__role">Backend Engineer,
+					Paystack</div>
+							</div>
+		</div>
+	</div>
+
+																				<nav class="post__nav">
+					<p>On this page</p>
+					<ul>
+						<template>
+							<li>
+								<a href="#section-number">Section title</a>
+							</li>
+						</template>
+					</ul>
+				</nav>
+			</aside>	
+
+						<div class="post__body grid__column grid__column--offset-1 grid__column--8">
+																<p>When we're not building payments infrastructure for Africa, you'll find us listening to and sharing a lot of music with each other.</p><p>And because we come from a diverse range of backgrounds, the music we share spans a wide variety of genres, moods, time periods — even languages. The Slack channel where these tracks are shared is a treasure chest of great finds.</p><p>Many months ago, <a href="https://twitter.com/onykchi" target="_blank" rel="noreferrer noopener">Kachi</a> built a Slack bot that automatically creates a recurring Spotify playlist of all the music we shared with each other that month. A handful of people outside the company seemed to really enjoy them, so a number of Paystack designers and engineers volunteered to create a custom experience to make it easier for our entire community to rediscover old favourites, and unearth new ones.</p><p>The result is <a href="../../music/index.html" target="_blank" rel="noreferrer noopener">Paystack Music</a>, where you can easily listen to monthly mixtapes of the music we share with each other on Slack.</p><p>In this article, we share how it all came together, including the design iterations, the tech stack it's built on, the source code for our music bot, and more.</p>
+																							<div class="call-to-action">
+		<h4 class="call-to-action__heading">Tune in to Paystack Music</h4>
+		<p class="call-to-action__body">Let the Paystack team put you on to your next favourite song.</p>
+		<a href="../../music/index.html"  target="_blank"  class="button call-to-action__button">Go to Paystack Music →</a>
+	</div>
+
+																						<h2>What's Paystack Music?</h2><p>At Paystack, when we find music we like, we share to a #fun-music channel on Slack for others to enjoy.</p><p>At the end of each month, our music bot automatically fetches all the Spotify tracks, creates a mixtape with custom cover art, and publishes it online.</p><p>Like the people who co-created them, each playlist is an eclectic mix, so don't be surprised if a grime track is followed by amapiano &#x1f605;</p><p>Each mixtape is a snapshot of a moment in time, capturing the shared highs and lows of the ~100 friends who make Paystack. Each is a tapestry of many colours, spun by many hands.</p><h2>Designing Paystack Music</h2><p>We approach most of our projects design-first. The animating questions include "How do we want you to feel when you explore Paystack Music?" and "What experiences do we want you to have?"</p>
+																															<div class="shareable-takeaway-wrap shareable-takeaway-wrap--blue">
+		<div class="shareable-takeaway">
+			<div class="shareable-takeaway__header">
+				<div class="shareable-takeaway__title">Shareable Takeaway</div>
+			</div>
+			<div class="shareable-takeaway__text">Paystack Music houses monthly mixtapes of the music we share with each other on Slack. This is how we built it.</div>
+			<div class="shareable-takeaway__footer">
+				<a href="whatsapp://send?text=Check%20this%20out:%0A&ldquo;Paystack Music houses monthly mixtapes of the music we share with each other on Slack. This is how we built it.&rdquo;%20via%20The%20Paystack%20Blog%20https://paystack.com/blog/engineering-design/music" data-action="share/whatsapp/share" class="button button--has-icon button--large button--whatsapp">
+					<i class="whatsapp-icon"></i>
+					Share on WhatsApp
+				</a>
+				<a href="https://www.facebook.com/sharer.php?u=https://paystack.com/blog/engineering-design/music" target="_blank" class="button button--has-icon button--large button--facebook">
+					<i class="facebook-icon"></i>
+					Share on Facebook
+				</a>
+				<a class="button button--has-icon button--large button--twitter" target="_blank" href="https://twitter.com/intent/tweet?text=Paystack%20Music%20houses%20monthly%20mixtapes%20of%20the%20music%20we%20share%20with%20each%20other%20on%20Slack.%20This%20is%20how%20we%20built%20it.%20via%20@paystack%20https://paystack.com/blog/engineering-design/music" class="button button--has-icon button--large button--twitter">
+					<i class="twitter-icon"></i>
+					Share on Twitter
+				</a>
+			</div>
+		</div>
+	</div>
+
+																													<p>We spent some time answering these questions, checked out various existing curated online music experiences, and went through a number of iterations before arriving at an experience we were all excited about. Here is <a href="https://raindrop.io/collection/12887542" target="_blank" rel="noreferrer noopener">the list of the sites which inspired our thinking →</a></p><h3>Creating a design guideline</h3><p>Since this isn't a Paystack payment product, we had the freedom to stretch our brand guidelines and bring in new elements, such as pastel gradients. Once we arrived at a sense of feel and aesthetics we were all happy with, we created a design guide for the project:</p><ul><li>Create a clean and airy layout</li><li>Use soft, delightful elements with no sharp edges</li><li>Incorporate minimal typography and lots of white spaces</li><li>Bring in fluid motions and interactions</li></ul><p>Inspired by these guidelines, we then created a team task board, split ourselves into micro teams, and kickstarted design explorations and low fidelity prototyping in Figma.</p>
+																									<figure class="post__image-wrap">
+		<div class="post__image post__image--md">
+						<img class="lazyload"
+				src="../../../s3-eu-west-1.amazonaws.com/pstk-blog-staging/images/articles/_1200x675_crop_center-center_100_line/Peer_Design-1.jpg"
+				data-action="zoom" 
+				data-original="../../../s3-eu-west-1.amazonaws.com/pstk-blog-staging/images/articles/Peer_Design-1.jpg" 
+									data-srcset="https://s3-eu-west-1.amazonaws.com/pstk-blog-staging/images/articles/_400x250_crop_center-center_82_line/Peer_Design-1.jpg 400w, https://s3-eu-west-1.amazonaws.com/pstk-blog-staging/images/articles/_800x500_crop_center-center_82_line/Peer_Design-1.jpg 800w, https://s3-eu-west-1.amazonaws.com/pstk-blog-staging/images/articles/_300x187_crop_center-center_82_line/Peer_Design-1.jpg 300w, https://s3-eu-west-1.amazonaws.com/pstk-blog-staging/images/articles/_600x375_crop_center-center_82_line/Peer_Design-1.jpg 600w, https://s3-eu-west-1.amazonaws.com/pstk-blog-staging/images/articles/_768x480_crop_center-center_82_line/Peer_Design-1.jpg 768w, https://s3-eu-west-1.amazonaws.com/pstk-blog-staging/images/articles/_1200x675_crop_center-center_100_line/Peer_Design-1.jpg 1200w"
+					data-sizes="100vw"
+								alt="peer design paystack">
+		</div>
+		<figcaption class="image-caption image-caption--centered">
+			A screenshot from one of our peer design sessions
+		</figcaption>
+	</figure>
+
+																						<p>Once each team had a prototype in place, we all compared notes and merged the best ideas from each team.</p><p>Paystack Music is simple by design, and there are only four pages:</p><ul><li><strong>The home page</strong> which introduces the project</li><li><strong>The Playlist Catalogue</strong> from where you choose a playlist</li><li><strong>The Playlist page</strong> from where you play the songs on the playlist, see which member of the Paystack team shared each song, and get a sense of the playlist's mood — happy, energetic, or dance-heavy</li><li><strong>The About page</strong> where you can learn more about Paystack Music and see everyone who contributed to the project.</li></ul>
+																																<div class="video ">
+					<video width="100%" controls>
+				<source src="https://s3-eu-west-1.amazonaws.com/pstk-blog-staging/video/WIP_Gif_Small_3.mp4">
+				Your browser does not support the video tag.
+			</video>
+		
+	</div>
+
+																													<p>Let's dive deeper into each page.</p><h3>Designing the Playlist Catalogue page</h3><p>This Catalogue page is where a visitor can browse through the various mixtapes. We were inspired by the experience of browsing physical vinyl records in stores, and you can see that idea come through in the early explorations.</p>
+																									<figure class="post__image-wrap">
+		<div class="post__image post__image--md">
+						<img class="lazyload"
+				src="../../../s3-eu-west-1.amazonaws.com/pstk-blog-staging/images/articles/_1200x675_crop_center-center_100_line/paystack_music_catalogue_1.jpg"
+				data-action="zoom" 
+				data-original="../../../s3-eu-west-1.amazonaws.com/pstk-blog-staging/images/articles/paystack_music_catalogue_1.jpg" 
+									data-srcset="https://s3-eu-west-1.amazonaws.com/pstk-blog-staging/images/articles/_400x250_crop_center-center_82_line/paystack_music_catalogue_1.jpg 400w, https://s3-eu-west-1.amazonaws.com/pstk-blog-staging/images/articles/_800x500_crop_center-center_82_line/paystack_music_catalogue_1.jpg 800w, https://s3-eu-west-1.amazonaws.com/pstk-blog-staging/images/articles/_300x187_crop_center-center_82_line/paystack_music_catalogue_1.jpg 300w, https://s3-eu-west-1.amazonaws.com/pstk-blog-staging/images/articles/_600x375_crop_center-center_82_line/paystack_music_catalogue_1.jpg 600w, https://s3-eu-west-1.amazonaws.com/pstk-blog-staging/images/articles/_768x480_crop_center-center_82_line/paystack_music_catalogue_1.jpg 768w, https://s3-eu-west-1.amazonaws.com/pstk-blog-staging/images/articles/_1200x675_crop_center-center_100_line/paystack_music_catalogue_1.jpg 1200w"
+					data-sizes="100vw"
+								alt="music catalogue 1">
+		</div>
+		<figcaption class="image-caption image-caption--centered">
+			
+		</figcaption>
+	</figure>
+
+																									<figure class="post__image-wrap">
+		<div class="post__image post__image--md">
+						<img class="lazyload"
+				src="../../../s3-eu-west-1.amazonaws.com/pstk-blog-staging/images/articles/_1200x675_crop_center-center_100_line/paystack_music_catalogue_2.jpg"
+				data-action="zoom" 
+				data-original="../../../s3-eu-west-1.amazonaws.com/pstk-blog-staging/images/articles/paystack_music_catalogue_2.jpg" 
+									data-srcset="https://s3-eu-west-1.amazonaws.com/pstk-blog-staging/images/articles/_400x250_crop_center-center_82_line/paystack_music_catalogue_2.jpg 400w, https://s3-eu-west-1.amazonaws.com/pstk-blog-staging/images/articles/_800x500_crop_center-center_82_line/paystack_music_catalogue_2.jpg 800w, https://s3-eu-west-1.amazonaws.com/pstk-blog-staging/images/articles/_300x187_crop_center-center_82_line/paystack_music_catalogue_2.jpg 300w, https://s3-eu-west-1.amazonaws.com/pstk-blog-staging/images/articles/_600x375_crop_center-center_82_line/paystack_music_catalogue_2.jpg 600w, https://s3-eu-west-1.amazonaws.com/pstk-blog-staging/images/articles/_768x480_crop_center-center_82_line/paystack_music_catalogue_2.jpg 768w, https://s3-eu-west-1.amazonaws.com/pstk-blog-staging/images/articles/_1200x675_crop_center-center_100_line/paystack_music_catalogue_2.jpg 1200w"
+					data-sizes="100vw"
+								alt="music catalogue 2">
+		</div>
+		<figcaption class="image-caption image-caption--centered">
+			
+		</figcaption>
+	</figure>
+
+																						<p>Over time we moved away from bunching the mixtapes together and started experimenting with giving each one more breathing room.</p>
+																									<figure class="post__image-wrap">
+		<div class="post__image post__image--md">
+						<img class="lazyload"
+				src="../../../s3-eu-west-1.amazonaws.com/pstk-blog-staging/images/articles/_1200x675_crop_center-center_100_line/paystack_music_catalogue_3.jpg"
+				data-action="zoom" 
+				data-original="../../../s3-eu-west-1.amazonaws.com/pstk-blog-staging/images/articles/paystack_music_catalogue_3.jpg" 
+									data-srcset="https://s3-eu-west-1.amazonaws.com/pstk-blog-staging/images/articles/_400x250_crop_center-center_82_line/paystack_music_catalogue_3.jpg 400w, https://s3-eu-west-1.amazonaws.com/pstk-blog-staging/images/articles/_800x500_crop_center-center_82_line/paystack_music_catalogue_3.jpg 800w, https://s3-eu-west-1.amazonaws.com/pstk-blog-staging/images/articles/_300x187_crop_center-center_82_line/paystack_music_catalogue_3.jpg 300w, https://s3-eu-west-1.amazonaws.com/pstk-blog-staging/images/articles/_600x375_crop_center-center_82_line/paystack_music_catalogue_3.jpg 600w, https://s3-eu-west-1.amazonaws.com/pstk-blog-staging/images/articles/_768x480_crop_center-center_82_line/paystack_music_catalogue_3.jpg 768w, https://s3-eu-west-1.amazonaws.com/pstk-blog-staging/images/articles/_1200x675_crop_center-center_100_line/paystack_music_catalogue_3.jpg 1200w"
+					data-sizes="100vw"
+								alt="playlist list 1">
+		</div>
+		<figcaption class="image-caption image-caption--centered">
+			
+		</figcaption>
+	</figure>
+
+																									<figure class="post__image-wrap">
+		<div class="post__image post__image--md">
+						<img class="lazyload"
+				src="../../../s3-eu-west-1.amazonaws.com/pstk-blog-staging/images/articles/_1200x675_crop_center-center_100_line/paystack_music_catalogue_4-1.jpg"
+				data-action="zoom" 
+				data-original="../../../s3-eu-west-1.amazonaws.com/pstk-blog-staging/images/articles/paystack_music_catalogue_4-1.jpg" 
+									data-srcset="https://s3-eu-west-1.amazonaws.com/pstk-blog-staging/images/articles/_400x250_crop_center-center_82_line/paystack_music_catalogue_4-1.jpg 400w, https://s3-eu-west-1.amazonaws.com/pstk-blog-staging/images/articles/_800x500_crop_center-center_82_line/paystack_music_catalogue_4-1.jpg 800w, https://s3-eu-west-1.amazonaws.com/pstk-blog-staging/images/articles/_300x187_crop_center-center_82_line/paystack_music_catalogue_4-1.jpg 300w, https://s3-eu-west-1.amazonaws.com/pstk-blog-staging/images/articles/_600x375_crop_center-center_82_line/paystack_music_catalogue_4-1.jpg 600w, https://s3-eu-west-1.amazonaws.com/pstk-blog-staging/images/articles/_768x480_crop_center-center_82_line/paystack_music_catalogue_4-1.jpg 768w, https://s3-eu-west-1.amazonaws.com/pstk-blog-staging/images/articles/_1200x675_crop_center-center_100_line/paystack_music_catalogue_4-1.jpg 1200w"
+					data-sizes="100vw"
+								alt="playlist list 2">
+		</div>
+		<figcaption class="image-caption image-caption--centered">
+			
+		</figcaption>
+	</figure>
+
+																						<p>While experimenting with various layouts, we realised that a radial layout allowed us to introduce a navigation element at the bottom of the page that feels like an old-school <a href="https://www.google.com/search?q=radio+dial&amp;source=lnms&amp;tbm=isch&amp;sa=X&amp;ved=2ahUKEwjZ36-P45rrAhXUuXEKHRstCNoQ_AUoAXoECA4QAw&amp;biw=1440&amp;bih=821" target="_blank" rel="noreferrer noopener">radio dial</a>.</p><p>We also increased the functionality of the page by layering a <a href="https://techcrunch.com/2017/05/05/spotify-codes/" target="_blank" rel="noreferrer noopener">Spotify Code</a> onto the playlist cover art. Spotify Codes work very similarly to QR codes. You can scan them using the Spotify app on your mobile device, and it instantly opens up the relevant playlist.</p>
+																									<figure class="post__image-wrap">
+		<div class="post__image post__image--md">
+						<img class="lazyload"
+				src="../../../s3-eu-west-1.amazonaws.com/pstk-blog-staging/images/articles/_1200x675_crop_center-center_100_line/CleanShot_2020-08-14_at_13.10.282x.jpg"
+				data-action="zoom" 
+				data-original="../../../s3-eu-west-1.amazonaws.com/pstk-blog-staging/images/articles/CleanShot_2020-08-14_at_13.10.282x.jpg" 
+									data-srcset="https://s3-eu-west-1.amazonaws.com/pstk-blog-staging/images/articles/_400x227_crop_center-center_82_line/CleanShot_2020-08-14_at_13.10.282x.jpg 400w, https://s3-eu-west-1.amazonaws.com/pstk-blog-staging/images/articles/_800x455_crop_center-center_82_line/CleanShot_2020-08-14_at_13.10.282x.jpg 800w, https://s3-eu-west-1.amazonaws.com/pstk-blog-staging/images/articles/_300x170_crop_center-center_82_line/CleanShot_2020-08-14_at_13.10.282x.jpg 300w, https://s3-eu-west-1.amazonaws.com/pstk-blog-staging/images/articles/_600x341_crop_center-center_82_line/CleanShot_2020-08-14_at_13.10.282x.jpg 600w, https://s3-eu-west-1.amazonaws.com/pstk-blog-staging/images/articles/_768x436_crop_center-center_82_line/CleanShot_2020-08-14_at_13.10.282x.jpg 768w, https://s3-eu-west-1.amazonaws.com/pstk-blog-staging/images/articles/_1536x873_crop_center-center_82_line/CleanShot_2020-08-14_at_13.10.282x.jpg 1536w, https://s3-eu-west-1.amazonaws.com/pstk-blog-staging/images/articles/_1200x675_crop_center-center_100_line/CleanShot_2020-08-14_at_13.10.282x.jpg 1200w, https://s3-eu-west-1.amazonaws.com/pstk-blog-staging/images/articles/_2400x1350_crop_center-center_100_line/CleanShot_2020-08-14_at_13.10.282x.jpg 2400w"
+					data-sizes="100vw"
+								alt="final playlist">
+		</div>
+		<figcaption class="image-caption image-caption--centered">
+			
+		</figcaption>
+	</figure>
+
+																						<h3>Designing the Playlist Page</h3><p>The early playlist page placed more emphasis on the individual songs and their respective cover art, but this didn't quite work well because we have many dozens of songs per playlist.</p>
+																									<figure class="post__image-wrap">
+		<div class="post__image post__image--md">
+						<img class="lazyload"
+				src="../../../s3-eu-west-1.amazonaws.com/pstk-blog-staging/images/articles/_1200x675_crop_center-center_100_line/paystack_music_playlist_1.jpg"
+				data-action="zoom" 
+				data-original="../../../s3-eu-west-1.amazonaws.com/pstk-blog-staging/images/articles/paystack_music_playlist_1.jpg" 
+									data-srcset="https://s3-eu-west-1.amazonaws.com/pstk-blog-staging/images/articles/_400x250_crop_center-center_82_line/paystack_music_playlist_1.jpg 400w, https://s3-eu-west-1.amazonaws.com/pstk-blog-staging/images/articles/_800x500_crop_center-center_82_line/paystack_music_playlist_1.jpg 800w, https://s3-eu-west-1.amazonaws.com/pstk-blog-staging/images/articles/_300x187_crop_center-center_82_line/paystack_music_playlist_1.jpg 300w, https://s3-eu-west-1.amazonaws.com/pstk-blog-staging/images/articles/_600x375_crop_center-center_82_line/paystack_music_playlist_1.jpg 600w, https://s3-eu-west-1.amazonaws.com/pstk-blog-staging/images/articles/_768x480_crop_center-center_82_line/paystack_music_playlist_1.jpg 768w, https://s3-eu-west-1.amazonaws.com/pstk-blog-staging/images/articles/_1200x675_crop_center-center_100_line/paystack_music_playlist_1.jpg 1200w"
+					data-sizes="100vw"
+								alt="Image">
+		</div>
+		<figcaption class="image-caption image-caption--centered">
+			
+		</figcaption>
+	</figure>
+
+																						<p>While playing with the Spotify API, we also realised that Spotify provides metadata such as how "energetic" or "danceable" songs are. We made this information more visible in the design as a metadata section.</p>
+																									<figure class="post__image-wrap">
+		<div class="post__image post__image--md">
+						<img class="lazyload"
+				src="../../../s3-eu-west-1.amazonaws.com/pstk-blog-staging/images/articles/_1200x675_crop_center-center_100_line/paystack_music_playlist_2.jpg"
+				data-action="zoom" 
+				data-original="../../../s3-eu-west-1.amazonaws.com/pstk-blog-staging/images/articles/paystack_music_playlist_2.jpg" 
+									data-srcset="https://s3-eu-west-1.amazonaws.com/pstk-blog-staging/images/articles/_400x250_crop_center-center_82_line/paystack_music_playlist_2.jpg 400w, https://s3-eu-west-1.amazonaws.com/pstk-blog-staging/images/articles/_800x500_crop_center-center_82_line/paystack_music_playlist_2.jpg 800w, https://s3-eu-west-1.amazonaws.com/pstk-blog-staging/images/articles/_300x187_crop_center-center_82_line/paystack_music_playlist_2.jpg 300w, https://s3-eu-west-1.amazonaws.com/pstk-blog-staging/images/articles/_600x375_crop_center-center_82_line/paystack_music_playlist_2.jpg 600w, https://s3-eu-west-1.amazonaws.com/pstk-blog-staging/images/articles/_768x480_crop_center-center_82_line/paystack_music_playlist_2.jpg 768w, https://s3-eu-west-1.amazonaws.com/pstk-blog-staging/images/articles/_1200x675_crop_center-center_100_line/paystack_music_playlist_2.jpg 1200w"
+					data-sizes="100vw"
+								alt="Image">
+		</div>
+		<figcaption class="image-caption image-caption--centered">
+			
+		</figcaption>
+	</figure>
+
+																						<p>We created custom illustrations for this metadata section. Following our design guidelines, we relied on simple, relatable metaphors - such as a disco ball for danceable music, a battery for energetic music, and balloons for happy music - and implemented them in a soft, chunky style with rounded edges.</p>
+																																<div class="video ">
+					<video width="100%" controls>
+				<source src="https://s3-eu-west-1.amazonaws.com/pstk-blog-staging/video/Analysis.mp4">
+				Your browser does not support the video tag.
+			</video>
+		
+	</div>
+
+																													<p>Finally, we sought out ways to visually highlight the single most special thing about playlists - that each playlist is curated by several members of the Paystack team.<br /></p><p>We designed the page to show who contributed each song in that month's playlist. To implement this, we leveraged the Slack API to show the name, headshot, and bio of each team member who shared a track in the #fun-music channel.</p>
+																									<figure class="post__image-wrap">
+		<div class="post__image post__image--md">
+						<img class="lazyload"
+				src="../../../s3-eu-west-1.amazonaws.com/pstk-blog-staging/images/articles/_1200x675_crop_center-center_100_line/paystack_music_playlist_4.jpg"
+				data-action="zoom" 
+				data-original="../../../s3-eu-west-1.amazonaws.com/pstk-blog-staging/images/articles/paystack_music_playlist_4.jpg" 
+									data-srcset="https://s3-eu-west-1.amazonaws.com/pstk-blog-staging/images/articles/_400x250_crop_center-center_82_line/paystack_music_playlist_4.jpg 400w, https://s3-eu-west-1.amazonaws.com/pstk-blog-staging/images/articles/_800x500_crop_center-center_82_line/paystack_music_playlist_4.jpg 800w, https://s3-eu-west-1.amazonaws.com/pstk-blog-staging/images/articles/_300x187_crop_center-center_82_line/paystack_music_playlist_4.jpg 300w, https://s3-eu-west-1.amazonaws.com/pstk-blog-staging/images/articles/_600x375_crop_center-center_82_line/paystack_music_playlist_4.jpg 600w, https://s3-eu-west-1.amazonaws.com/pstk-blog-staging/images/articles/_768x480_crop_center-center_82_line/paystack_music_playlist_4.jpg 768w, https://s3-eu-west-1.amazonaws.com/pstk-blog-staging/images/articles/_1200x675_crop_center-center_100_line/paystack_music_playlist_4.jpg 1200w"
+					data-sizes="100vw"
+								alt="Image">
+		</div>
+		<figcaption class="image-caption image-caption--centered">
+			
+		</figcaption>
+	</figure>
+
+																						<p>By default, Spotify lets you play 30-second snippets of songs for free, but eager listeners can log into their Spotify account to listen to full tracks.</p>
+																															<div class="shareable-takeaway-wrap shareable-takeaway-wrap--blue">
+		<div class="shareable-takeaway">
+			<div class="shareable-takeaway__header">
+				<div class="shareable-takeaway__title">Shareable Takeaway</div>
+			</div>
+			<div class="shareable-takeaway__text">To quickly play a Paystack Music playlist on your phone, open the Spotify app and scan the special Spotify code on the cover of your preferred playlist.</div>
+			<div class="shareable-takeaway__footer">
+				<a href="whatsapp://send?text=Check%20this%20out:%0A&ldquo;To quickly play a Paystack Music playlist on your phone, open the Spotify app and scan the special Spotify code on the cover of your preferred playlist.&rdquo;%20via%20The%20Paystack%20Blog%20https://paystack.com/blog/engineering-design/music" data-action="share/whatsapp/share" class="button button--has-icon button--large button--whatsapp">
+					<i class="whatsapp-icon"></i>
+					Share on WhatsApp
+				</a>
+				<a href="https://www.facebook.com/sharer.php?u=https://paystack.com/blog/engineering-design/music" target="_blank" class="button button--has-icon button--large button--facebook">
+					<i class="facebook-icon"></i>
+					Share on Facebook
+				</a>
+				<a class="button button--has-icon button--large button--twitter" target="_blank" href="https://twitter.com/intent/tweet?text=To%20quickly%20play%20a%20Paystack%20Music%20playlist%20on%20your%20phone,%20open%20the%20Spotify%20app%20and%20scan%20the%20special%20Spotify%20code%20on%20the%20cover%20of%20your%20preferred%20playlist.%20via%20@paystack%20https://paystack.com/blog/engineering-design/music" class="button button--has-icon button--large button--twitter">
+					<i class="twitter-icon"></i>
+					Share on Twitter
+				</a>
+			</div>
+		</div>
+	</div>
+
+																													<h2>Building Paystack Music</h2><p>The Paystack Music Bot is the beating heart of this project.</p><p>It's the API that fetches the Spotify URLs from Slack and creates the monthly playlists. We'll be open-sourcing the Music Bot soon, so you can make Slack mixtapes for your own team.</p><h3>The Music Bot (v1.0)</h3><p>The very first version of the Paystack Music bot did only one thing — creating monthly Spotify playlists from the songs we share on the #fun-music Slack channel — and it did it well.</p><p>The bot was a lightweight Node.js/Express application using <a href="https://github.com/typicode/lowdb" target="_blank" rel="noreferrer noopener">LowDB</a> for data storage. Here're all the processes it executed:</p><p>1. <strong>Fetch music tracks from the #fun-music channel:</strong> The bot would read through all the messages on #fun-music using <a href="https://api.slack.com/methods/conversations.history" target="_blank" rel="noreferrer noopener">Slack's Conversations History API</a>, filter them and only select messages with a Spotify URL in them.</p>
+																									<figure class="post__image-wrap">
+		<div class="post__image post__image--md">
+						<img class="lazyload"
+				src="../../../s3-eu-west-1.amazonaws.com/pstk-blog-staging/images/articles/_1200x675_crop_center-center_100_line/Untitled-29.jpg"
+				data-action="zoom" 
+				data-original="../../../s3-eu-west-1.amazonaws.com/pstk-blog-staging/images/articles/Untitled-29.jpg" 
+									data-srcset="https://s3-eu-west-1.amazonaws.com/pstk-blog-staging/images/articles/_400x289_crop_center-center_82_line/Untitled-29.jpg 400w, https://s3-eu-west-1.amazonaws.com/pstk-blog-staging/images/articles/_800x578_crop_center-center_82_line/Untitled-29.jpg 800w, https://s3-eu-west-1.amazonaws.com/pstk-blog-staging/images/articles/_300x216_crop_center-center_82_line/Untitled-29.jpg 300w, https://s3-eu-west-1.amazonaws.com/pstk-blog-staging/images/articles/_600x433_crop_center-center_82_line/Untitled-29.jpg 600w, https://s3-eu-west-1.amazonaws.com/pstk-blog-staging/images/articles/_768x555_crop_center-center_82_line/Untitled-29.jpg 768w, https://s3-eu-west-1.amazonaws.com/pstk-blog-staging/images/articles/_1536x1110_crop_center-center_82_line/Untitled-29.jpg 1536w, https://s3-eu-west-1.amazonaws.com/pstk-blog-staging/images/articles/_1200x675_crop_center-center_100_line/Untitled-29.jpg 1200w"
+					data-sizes="100vw"
+								alt="fetch music">
+		</div>
+		<figcaption class="image-caption image-caption--centered">
+			A screenshot of a Slack message that has a Spotify URL in it
+		</figcaption>
+	</figure>
+
+																						<p>2. <strong>Create a Spotify playlist and add the tracks</strong>: Spotify's APIs provide endpoints for <a href="https://developer.spotify.com/documentation/web-api/reference/playlists/create-playlist/" target="_blank" rel="noreferrer noopener">creating a playlist</a> and adding <a href="https://developer.spotify.com/documentation/web-api/reference/playlists/add-tracks-to-playlist/" target="_blank" rel="noreferrer noopener">tracks to the playlist</a>. The bot would use these endpoints to create and populate a Spotify playlist named after the month when the tracks were shared on #fun-music (e.g "March 2020".)</p><p>3. <strong>Create a playlist cover image</strong>: Spotify creates a default cover image using a collage of the first 4 tracks in the playlist. We wanted to bring some of Paystack's brand to each cover image, so we opted for a simple, single hue design with Paystack's logomark at the top right, and the playlist's name at the bottom right. The background hue for each cover is determined by the most dominant colours that appear on the covers of the first four tracks of each playlist. To create each cover, we:</p><ol><li>Use <a href="https://lokeshdhakar.com/projects/color-thief/" target="_blank" rel="noreferrer noopener">Color Thief library</a> to extract the dominant colour in the first four tracks of the playlist</li><li>Use Puppeteer to generate an HTML page with the Paystack logomark and the playlist name</li><li>Automatically take a screenshot of the page, and upload it as the new cover image.</li></ol>
+																									<figure class="post__image-wrap">
+		<div class="post__image post__image--md">
+						<img class="lazyload"
+				src="../../../s3-eu-west-1.amazonaws.com/pstk-blog-staging/images/articles/_1200x675_crop_center-center_100_line/Untitled-30.jpg"
+				data-action="zoom" 
+				data-original="../../../s3-eu-west-1.amazonaws.com/pstk-blog-staging/images/articles/Untitled-30.jpg" 
+									data-srcset="https://s3-eu-west-1.amazonaws.com/pstk-blog-staging/images/articles/_400x201_crop_center-center_82_line/Untitled-30.jpg 400w, https://s3-eu-west-1.amazonaws.com/pstk-blog-staging/images/articles/_800x402_crop_center-center_82_line/Untitled-30.jpg 800w, https://s3-eu-west-1.amazonaws.com/pstk-blog-staging/images/articles/_300x150_crop_center-center_82_line/Untitled-30.jpg 300w, https://s3-eu-west-1.amazonaws.com/pstk-blog-staging/images/articles/_600x301_crop_center-center_82_line/Untitled-30.jpg 600w, https://s3-eu-west-1.amazonaws.com/pstk-blog-staging/images/articles/_768x385_crop_center-center_82_line/Untitled-30.jpg 768w, https://s3-eu-west-1.amazonaws.com/pstk-blog-staging/images/articles/_1536x771_crop_center-center_82_line/Untitled-30.jpg 1536w, https://s3-eu-west-1.amazonaws.com/pstk-blog-staging/images/articles/_1200x675_crop_center-center_100_line/Untitled-30.jpg 1200w"
+					data-sizes="100vw"
+								alt="playlist hues">
+		</div>
+		<figcaption class="image-caption image-caption--centered">
+			Cover images of twelve playlists showing off the various hues
+		</figcaption>
+	</figure>
+
+																						<p>4. <strong>S</strong><strong>end playlist URL to channel:</strong> After a playlist is created, the bot would then share a link to the Spotify playlist on #fun-music using <a href="https://api.slack.com/methods/chat.postMessage" target="_blank" rel="noreferrer noopener">another one of Slack's APIs</a>.</p>
+																									<figure class="post__image-wrap">
+		<div class="post__image post__image--md">
+						<img class="lazyload"
+				src="../../../s3-eu-west-1.amazonaws.com/pstk-blog-staging/images/articles/_1200x675_crop_center-center_100_line/April_Playlist_copy.jpg"
+				data-action="zoom" 
+				data-original="../../../s3-eu-west-1.amazonaws.com/pstk-blog-staging/images/articles/April_Playlist_copy.jpg" 
+									data-srcset="https://s3-eu-west-1.amazonaws.com/pstk-blog-staging/images/articles/_400x306_crop_center-center_82_line/April_Playlist_copy.jpg 400w, https://s3-eu-west-1.amazonaws.com/pstk-blog-staging/images/articles/_800x613_crop_center-center_82_line/April_Playlist_copy.jpg 800w, https://s3-eu-west-1.amazonaws.com/pstk-blog-staging/images/articles/_300x230_crop_center-center_82_line/April_Playlist_copy.jpg 300w, https://s3-eu-west-1.amazonaws.com/pstk-blog-staging/images/articles/_600x460_crop_center-center_82_line/April_Playlist_copy.jpg 600w, https://s3-eu-west-1.amazonaws.com/pstk-blog-staging/images/articles/_768x589_crop_center-center_82_line/April_Playlist_copy.jpg 768w, https://s3-eu-west-1.amazonaws.com/pstk-blog-staging/images/articles/_1536x1178_crop_center-center_82_line/April_Playlist_copy.jpg 1536w, https://s3-eu-west-1.amazonaws.com/pstk-blog-staging/images/articles/_1200x675_crop_center-center_100_line/April_Playlist_copy.jpg 1200w"
+					data-sizes="100vw"
+								alt="Image">
+		</div>
+		<figcaption class="image-caption image-caption--centered">
+			A screenshot of the Paystack Music bot sending a playlist to #fun-music
+		</figcaption>
+	</figure>
+
+																						<p>We used <a href="https://zapier.com/" target="_blank" rel="noreferrer noopener">Zapier</a> (which allows you automate simple, repetitive tasks) to trigger the playlist creation at the beginning of every month. We set it up to send a POST request to our playlist endpoint on the first day of every month at 6 am.</p><h3>The Music Bot (v2.0)</h3><p>The v1.0 of the bot worked well within the Slack-Spotify loop. To be able to expose the project to the outside world through Paystack Music, however, we had to make a few changes that would help us:</p><ol><li>Fetch the list of playlists and details about each playlist.</li><li>Collect more data about the tracks in each playlist, such as the artists' names.</li><li>Fetch all the microsite data without calling any external APIs. This helps us optimise for speed and avoid being rate-limited.</li><li>Store playlist data properly. V1.0 of the bot used LowDB, which worked well because all we had to store were Spotify authentication tokens which are temporary. Once we started storing tracks, artists, playlists and contributors, however, we knew it would quickly fall apart because of the short life span of our web server. We decided to use MongoDB. LowDB is a small JSON local database that would not be suitable for storing all the data we planned to. Mongo allowed us to store larger bits of data and provided a database server which meant we could inspect and query our data easily without having to SSH into our application server.</li></ol><p>To make Paystack Music work, we updated our music bot so it can now:</p><ol><li><strong>Save contributor profiles:</strong> The profiles of contributors who share tracks on #fun-music are <a href="https://api.slack.com/methods/users.info" target="_blank" rel="noreferrer noopener">fetched</a> and stored in the database. In the scenario where more than one person shares a track in a month, they're all added as contributors for the track.</li><li><strong>Fetch each track's mood:</strong> Every song evokes a mood — happy, high-energy, etc. — and we wanted to share a sense of the general mood that the playlist itself gives off. Was the team vibing to Sean Paul-type hyper or Lana Del Rey-type sombreness? <a href="https://developer.spotify.com/documentation/web-api/reference/tracks/get-audio-features/" target="_blank" rel="noreferrer noopener">Spotify's Audio Features API</a> allows us to fetch these insights.</li><li><strong>Save playlists/tracks:</strong> Metadata for the playlist and tracks are saved in the database so they can be served to the microsite.</li></ol><h3>How we built the UI</h3><p>We always try to serve the lightest possible frontend code to users, so we typically limit our dependency on frameworks and libraries.</p><p>We built Paystack Music using HTML, CSS and Javascript. We also used two very lightweight libraries — <a href="https://splitting.js.org/" target="_blank" rel="noreferrer noopener">Splitting JS</a> and <a href="https://highway.js.org/" target="_blank" rel="noreferrer noopener">Dogstudio's Highway</a> — for in-page interactions. Tree shaking and bundling happen via <a href="https://parceljs.org/" target="_blank" rel="noreferrer noopener">Parcel</a>, and our modified version of <a href="https://github.com/airbnb/javascript" target="_blank" rel="noreferrer noopener">Airbnb's base Eslint config</a> helped us harmonise our code.</p><h3>Generating playlist pages</h3>
+																									<figure class="post__image-wrap">
+		<div class="post__image post__image--md">
+						<img class="lazyload"
+				src="../../../s3-eu-west-1.amazonaws.com/pstk-blog-staging/images/articles/Untitled-31.jpg"
+				data-action="zoom" 
+				data-original="../../../s3-eu-west-1.amazonaws.com/pstk-blog-staging/images/articles/Untitled-31.jpg" 
+									data-srcset="https://s3-eu-west-1.amazonaws.com/pstk-blog-staging/images/articles/_400x102_crop_center-center_82_line/Untitled-31.jpg 400w, https://s3-eu-west-1.amazonaws.com/pstk-blog-staging/images/articles/_800x204_crop_center-center_82_line/Untitled-31.jpg 800w, https://s3-eu-west-1.amazonaws.com/pstk-blog-staging/images/articles/_300x76_crop_center-center_82_line/Untitled-31.jpg 300w, https://s3-eu-west-1.amazonaws.com/pstk-blog-staging/images/articles/_600x153_crop_center-center_82_line/Untitled-31.jpg 600w, https://s3-eu-west-1.amazonaws.com/pstk-blog-staging/images/articles/_768x195_crop_center-center_82_line/Untitled-31.jpg 768w, https://s3-eu-west-1.amazonaws.com/pstk-blog-staging/images/articles/_1536x391_crop_center-center_82_line/Untitled-31.jpg 1536w"
+					data-sizes="100vw"
+								alt="Image">
+		</div>
+		<figcaption class="image-caption image-caption--centered">
+			Screenshot showing a successful build process
+		</figcaption>
+	</figure>
+
+																						<p>To optimise browser performance, we generate all HTML pages on the server-side. We built a lightweight NodeJS-based static site generator to help with this. The NodeJS app retrieves playlist information via our custom Paystack Music API and generates static HTML pages for each playlist. We use <a href="https://liquidjs.com/" target="_blank" rel="noreferrer noopener">Shopify's LiquidJS</a> as the templating engine to generate HTML.</p><p>One challenge we faced was setting up the correct deployment order. We wanted to generate HTML pages pre-build, so Parcel could run the necessary optimisations behind the scenes. To solve this, we ported the NodeJS app to a Netlify build plugin. This gave us access to Netlify's lifecycle hook. With this, we were able to achieve our ideal flow: Push to Github &gt; Generate Static playlist pages &gt; Run Parcel's Build script &gt; Serve the site to the user.</p><h3>Iterating on the Player</h3><p>We originally intended to allow visitors to listen to full tracks in the browser, right on the Playlist page, by using <a href="https://developer.spotify.com/documentation/web-playback-sdk/#supported-browsers" target="_blank" rel="noreferrer noopener">Spotify's Web Playback SDK</a>.</p>
+																									<figure class="post__image-wrap">
+		<div class="post__image post__image--md">
+						<img class="lazyload"
+				src="../../../s3-eu-west-1.amazonaws.com/pstk-blog-staging/images/articles/_1200x675_crop_center-center_100_line/Untitled-32.jpg"
+				data-action="zoom" 
+				data-original="../../../s3-eu-west-1.amazonaws.com/pstk-blog-staging/images/articles/Untitled-32.jpg" 
+									data-srcset="https://s3-eu-west-1.amazonaws.com/pstk-blog-staging/images/articles/_400x148_crop_center-center_82_line/Untitled-32.jpg 400w, https://s3-eu-west-1.amazonaws.com/pstk-blog-staging/images/articles/_800x296_crop_center-center_82_line/Untitled-32.jpg 800w, https://s3-eu-west-1.amazonaws.com/pstk-blog-staging/images/articles/_300x111_crop_center-center_82_line/Untitled-32.jpg 300w, https://s3-eu-west-1.amazonaws.com/pstk-blog-staging/images/articles/_600x222_crop_center-center_82_line/Untitled-32.jpg 600w, https://s3-eu-west-1.amazonaws.com/pstk-blog-staging/images/articles/_768x284_crop_center-center_82_line/Untitled-32.jpg 768w, https://s3-eu-west-1.amazonaws.com/pstk-blog-staging/images/articles/_1536x568_crop_center-center_82_line/Untitled-32.jpg 1536w, https://s3-eu-west-1.amazonaws.com/pstk-blog-staging/images/articles/_1200x675_crop_center-center_100_line/Untitled-32.jpg 1200w"
+					data-sizes="100vw"
+								alt="Old Spotify player">
+		</div>
+		<figcaption class="image-caption image-caption--centered">
+			Previous player with the login to Spotify button
+		</figcaption>
+	</figure>
+
+																						<p>During testing, however, we noticed a few performance inconsistencies across browsers. With our deadline fast approaching, we decided to optimize the user experience to allow visitors listen to 30-second song previews, and direct them to the Spotify or Apple Music app where they'll be able to listen to the full song. We also automatically skip to the next song after the end of each preview, which creates a radio-like listening experience.</p><p>The current implementation makes use of the browser's native audio API and triggers song previews on demand.</p>
+																									<figure class="post__image-wrap">
+		<div class="post__image post__image--md">
+						<img class="lazyload"
+				src="../../../s3-eu-west-1.amazonaws.com/pstk-blog-staging/images/articles/_1200x675_crop_center-center_100_line/Untitled-33.jpg"
+				data-action="zoom" 
+				data-original="../../../s3-eu-west-1.amazonaws.com/pstk-blog-staging/images/articles/Untitled-33.jpg" 
+									data-srcset="https://s3-eu-west-1.amazonaws.com/pstk-blog-staging/images/articles/_400x111_crop_center-center_82_line/Untitled-33.jpg 400w, https://s3-eu-west-1.amazonaws.com/pstk-blog-staging/images/articles/_800x223_crop_center-center_82_line/Untitled-33.jpg 800w, https://s3-eu-west-1.amazonaws.com/pstk-blog-staging/images/articles/_300x83_crop_center-center_82_line/Untitled-33.jpg 300w, https://s3-eu-west-1.amazonaws.com/pstk-blog-staging/images/articles/_600x167_crop_center-center_82_line/Untitled-33.jpg 600w, https://s3-eu-west-1.amazonaws.com/pstk-blog-staging/images/articles/_768x214_crop_center-center_82_line/Untitled-33.jpg 768w, https://s3-eu-west-1.amazonaws.com/pstk-blog-staging/images/articles/_1536x429_crop_center-center_82_line/Untitled-33.jpg 1536w, https://s3-eu-west-1.amazonaws.com/pstk-blog-staging/images/articles/_1200x675_crop_center-center_100_line/Untitled-33.jpg 1200w"
+					data-sizes="100vw"
+								alt="new spotify player">
+		</div>
+		<figcaption class="image-caption image-caption--centered">
+			Updated player with login option removed
+		</figcaption>
+	</figure>
+
+																						<p>We intend to revisit this in a later iteration and hopefully figure out an optimal way to allow visitors log into Spotify and listen to full tracks right on the page.</p><h3>Animations and Page Transitions</h3><p>We always try to use the simplest tool for the job, and as a result, default to CSS animation for a lot of our animations. Depending on the use case, we sometimes augment these animations with CSS variables, set dynamically with Javascript. We use similar easing functions across all our animations and tweak animation duration accordingly.</p><h2>Build a Spotify-Slack music bot of your own</h2><p>We had so much fun leveraging the Slack and Spotify APIs to build this project, and <a target="_blank" href="https://github.com/PaystackHQ/paystack-music-api" rel="noreferrer noopener">we’ve made the source code public</a> so you can build automatic monthly mixtapes for your team or other exciting projects of your own.<br /></p>
+																							<div class="call-to-action">
+		<h4 class="call-to-action__heading">Build your own Spotify-Slack music bot</h4>
+		<p class="call-to-action__body">Explore the Paystack Music source code.</p>
+		<a href="https://github.com/PaystackHQ/paystack-music-api"  target="_blank"  class="button call-to-action__button">Check out the source code →</a>
+	</div>
+
+																						<p><a href="../../music/index.html">Paystack Music</a> is a gift from our team to yours. We hope you find your next favourite song in these mixtapes, and that these tunes provide good company as you work on your next big thing.</p><p>Enjoy! ❤</p>
+																													      
+    
+	<section class="home-section--subscribe">
+		<div class="container container--md">
+			<div class="subscribe-section subscribe-section--lg">
+				<div class="subscribe-section__cta">
+					<div class="subscribe-section__title">Get more stories like this</div>
+					<div class="subscribe-section__sub-title u-width-660">Enter your email to get similar stories about how we build things at Paystack</div>
+					<div class="subscribe-section__form">
+						<form data-form-location="storyList" method="post" class="form--inline form--centered form">
+							<div class="form__group">
+								<input type="email" placeholder="Email Address" aria-placeholder="Enter Email Address" class="form__input form__input--large">
+							</div>
+							<button class="button button--green button--large">
+								<span class="loading-icon">
+									<i class="ion ion-load-d"></i>
+								</span>
+								<span class="button__text">Subscribe</span>
+							</button>
+						</form>
+					</div>
+				</div>
+				<div class="subscribe-section__congrats">
+					<div class="subscribe-section__title"></div>
+					<div class="subscribe-section__sub-title">You&#039;re awesome ❤️</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+													</div>
+		</main>
+		</div>
+	</article>
+
+	
+
+	
+	            
+                                                        
+    
+<footer class="footer">
+    <div class="footer__top">
+        <div class="container">
+            <div class="footer__left">
+<!--                 <div class="footer__primary-title">Start accepting payments online</div> -->
+                <div class="footer__secondary-title">Over 60,000 businesses in Nigeria use Paystack to accept local and international online payments with our secure payments gateway, including Domino’s Pizza, GIGM, and Axa Mansard Insurance. Paystack is free to integrate, and quick to set up. Take us for a spin today.</div>
+            </div>
+            <div class="footer__right footer__left--xs">
+                    <a target="_blank" rel="noopener" href="https://dashboard.paystack.com/#/signup" class="button button--green button--large">Create your free account</a>   
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="footer__bottom">
+            <div class="footer__left">
+                    &copy; 2021 Paystack
+            </div>
+            <div class="footer__right">
+                <a target="_blank" rel="noopener" href="../../index.html">paystack.com
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+                        <path d="M87 18.5c0-3-2.5-5.5-5.5-5.5H18.7c-3.5 0-6.7 3.4-5.5 7.2.8 2.3 3.1 3.8 5.5 3.8H64c1.6 0 2.3 1.9 1.2 3L18.7 73.5c-2.2 2.2-2.3 5.9 0 8.1 2.2 2.1 5.6 1.8 7.8-.3L73 34.8c1.1-1.1 3-.3 3 1.2v45.3c0 3.3 2.8 6.1 6.1 5.7 2.8-.3 4.9-2.9 4.9-5.7V18.5c0-3 0 .6 0 0 0-3 0 .6 0 0 0-3 0 .6 0 0 0-3 0 .6 0 0 0-3 0 .6 0 0z"/>
+                        </svg></a>
+            </div>
+        </div>
+    </div>
+</footer>
+
+	
+	<script>
+		(function (window, document, undefined) {
+			var iframes = document.getElementsByTagName('iframe');
+
+			for (var i = 0; i < iframes.length; i++) {
+			var iframe = iframes[i],
+
+			players = /www.youtube.com|player.vimeo.com/;
+
+			/* If the RegExp pattern exists within the current iframe */
+			if (iframe.src.search(players) > 0) { /* Calculate new video ratio */
+			var videoRatio = (iframe.height / iframe.width) * 100;
+
+			/* Set iframe dimension */
+			iframe.style.position = 'absolute';
+			iframe.style.top = '0';
+			iframe.style.left = '0';
+			iframe.width = '100%';
+			iframe.height = '100%';
+
+			/* Wrap the iframe in a new <div> */
+			var wrap = document.createElement('div');
+			wrap.style.width = '100%';
+			wrap.style.position = 'relative';
+			wrap.style.paddingTop = videoRatio + '%';
+
+			/* Add the iframe inside newly created <div> */
+			var iframeParent = iframe.parentNode;
+			iframeParent.insertBefore(wrap, iframe);
+			wrap.appendChild(iframe);
+			}
+			}
+
+			})(window, document);
+				</script>
+				<div id="fb-root"></div>
+				<script>
+					window.twttr = (function (d, s, id) {
+			var js,
+			fjs = d.getElementsByTagName(s)[0],
+			t = window.twttr || {};
+			if (d.getElementById(id)) 
+			return t;
+
+
+			js = d.createElement(s);
+			js.id = id;
+			js.src = "../../../platform.twitter.com/widgets.js";
+			fjs.parentNode.insertBefore(js, fjs);
+
+			t._e = [];
+			t.ready = function (f) {
+			t._e.push(f);
+			};
+
+			return t;
+			}(document, "script", "twitter-wjs"));
+				</script>
+				<script>
+					window.fbAsyncInit = function () {
+			FB.init({xfbml: true, version: 'v2.12'});
+			};
+			(function (d, s, id) {
+			var js,
+			fjs = d.getElementsByTagName(s)[0];
+			if (d.getElementById(id)) {
+			return;
+			}
+			js = d.createElement(s);
+			js.id = id;
+			js.src = "../../../connect.facebook.net/en_US/sdk.js";
+			fjs.parentNode.insertBefore(js, fjs);
+			}(document, 'script', 'facebook-jssdk'));
+	</script>
+			<script>lazyload()</script>
+	   <script type="application/ld+json">{"@context":"http://schema.org","@graph":[{"@type":"WebPage","author":{"@id":"{parseEnv(seomatic.site.identity.genericUrl)}#identity"},"copyrightHolder":{"@id":"{parseEnv(seomatic.site.identity.genericUrl)}#identity"},"copyrightYear":"2020","creator":{"@id":"{parseEnv(seomatic.site.identity.genericUrl)}#creator"},"dateModified":"2020-09-16T19:37:38+01:00","datePublished":"2020-08-17T10:06:00+01:00","description":"How we built automatic monthly mixtapes of all the music shared on Slack, using the Spotify and Slack APIs","headline":"How we built it: Paystack Music","image":{"@type":"ImageObject","url":"https://s3-eu-west-1.amazonaws.com/pstk-blog-staging/images/articles/CleanShot_2020-08-14_at_12.26.452x-1.jpg"},"inLanguage":"en-us","mainEntityOfPage":"https://paystack.com/blog/engineering-design/music","name":"How we built it: Paystack Music","publisher":{"@id":"{parseEnv(seomatic.site.identity.genericUrl)}#creator"},"url":"https://paystack.com/blog/engineering-design/music"},{"@id":"{parseEnv(seomatic.site.identity.genericUrl)}#identity","@type":"LocalBusiness","address":{"@type":"PostalAddress","addressCountry":"Nigeria","addressLocality":"Ikeja","addressRegion":"Lagos","streetAddress":"126 Joel Ogunnaike"},"email":"hello@paystack.com","founder":"Shola Akinlade","foundingLocation":"Lagos, Nigeria","image":{"@type":"ImageObject","height":"2245","url":"https://s3-eu-west-1.amazonaws.com/pstk-blog-staging/images/articles/Paystack-mark.png","width":"2286"},"logo":{"@type":"ImageObject","height":"60","url":"https://s3-eu-west-1.amazonaws.com/pstk-blog-staging/images/articles/_600x60_fit_center-center_82_none/Paystack-mark.png?mtime=1520797301","width":"61"},"name":"Paystack","priceRange":"$","url":"http://paystack.com"},{"@id":"{parseEnv(seomatic.site.creator.genericUrl)}#creator","@type":"LocalBusiness","name":"Paystack","priceRange":"$"},{"@type":"BreadcrumbList","description":"Breadcrumbs list","itemListElement":[{"@type":"ListItem","item":"https://paystack.com/blog","name":"The Paystack Blog","position":1},{"@type":"ListItem","item":"https://paystack.com/blog/engineering-design/music","name":"How we built it: Paystack Music","position":2}],"name":"Breadcrumbs"}]}</script><script>"use strict";!function(){var e=document.querySelectorAll(".trust-me__question a"),t=function(e){e.preventDefault();var t=this.parentNode,s=t.parentNode.querySelector(".trust-me__answer");t.classList.toggle("trust-me__question--is-open"),s.style.maxHeight?s.style.maxHeight=null:s.style.maxHeight=s.scrollHeight+"px"};e.forEach(function(e){e.addEventListener("click",t)})}();"use strict";!function(){var e=document.querySelector(".post"),t=e.querySelectorAll("h2"),n=e.querySelector(".post__nav"),o=e.querySelector(".post__nav ul"),r=[];n.style.display=t.length?null:"none";var c=function(e,t){e.forEach(function(e){t.insertAdjacentHTML("beforeend",e)})},a=function(e){document.querySelectorAll(e).forEach(function(e){e.classList.remove("active")})};t.forEach(function(e,t){e.id=e.textContent.replace(/\s+/g,"-").toLowerCase(),r.push('<li><a href="#'+e.id+'">'+e.textContent+"</a></li>")}),c(r,o);var i={rootMargin:"0px 0px -50% 100%"},l=new IntersectionObserver(function(e){e.forEach(function(e){var t=e.target.getAttribute("id");e.intersectionRatio>0&&(a(".post__nav li a"),document.querySelector('.post__nav li a[href="#'+t+'"]').classList.add("active"))})},i);t.forEach(function(e){l.observe(e)})}();"use strict";var _typeof2="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(t){return typeof t}:function(t){return t&&"function"==typeof Symbol&&t.constructor===Symbol&&t!==Symbol.prototype?"symbol":typeof t},_typeof="function"==typeof Symbol&&"symbol"==_typeof2(Symbol.iterator)?function(t){return"undefined"==typeof t?"undefined":_typeof2(t)}:function(t){return t&&"function"==typeof Symbol&&t.constructor===Symbol&&t!==Symbol.prototype?"symbol":"undefined"==typeof t?"undefined":_typeof2(t)};!function(t,e){"object"==("undefined"==typeof exports?"undefined":_typeof(exports))&&"undefined"!=typeof module?module.exports=e():"function"==typeof define&&define.amd?define(e):(t=t||self).Zooming=e()}(void 0,function(){function t(t,e,i){var n={passive:!1};3<arguments.length&&void 0!==arguments[3]&&!arguments[3]?t.removeEventListener(e,i,n):t.addEventListener(e,i,n)}function e(t,e){if(t){var i=new Image;i.onload=function(){e&&e(i)},i.src=t}}function i(t){return t.dataset.original?t.dataset.original:"A"===t.parentNode.tagName?t.parentNode.getAttribute("href"):null}function n(t,e,i){if(e.transition){var n=e.transition;delete e.transition,e.transition=n}if(e.transform){var o=e.transform;delete e.transform,e.transform=o}var s=t.style,r={};for(var l in e)i&&(r[l]=s[l]||""),s[l]=e[l];return r}function o(t){return 0===t.button}function s(t){return t.metaKey||t.ctrlKey}function r(){var t=document.documentElement;return{x:Math.min(t.clientWidth,window.innerWidth)/2,y:Math.min(t.clientHeight,window.innerHeight)/2}}function l(e,i,n){["mousedown","mousemove","mouseup","touchstart","touchmove","touchend"].forEach(function(o){t(e,o,i[o],n)})}var a="auto",h="zoom-in",c="zoom-out",u="grab",d="move",f=function(){},p={enableGrab:!0,preloadImage:!1,closeOnWindowResize:!0,transitionDuration:.4,transitionTimingFunction:"cubic-bezier(0.4, 0, 0, 1)",bgColor:"rgb(255, 255, 255)",bgOpacity:1,scaleBase:1,scaleExtra:.5,scrollThreshold:40,zIndex:998,customSize:null,onOpen:f,onClose:f,onGrab:f,onMove:f,onRelease:f,onBeforeOpen:f,onBeforeClose:f,onBeforeGrab:f,onBeforeRelease:f,onImageLoading:f,onImageLoaded:f},y={init:function(t){var e,i;e=this,i=t,Object.getOwnPropertyNames(Object.getPrototypeOf(e)).forEach(function(t){e[t]=e[t].bind(i)})},click:function(t){return t.preventDefault(),s(t)?window.open(this.target.srcOriginal||t.currentTarget.src,"_blank"):void(this.shown?this.released?this.close():this.release():this.open(t.currentTarget))},scroll:function(){var t=document.documentElement||document.body.parentNode||document.body,e=window.pageXOffset||t.scrollLeft,i=window.pageYOffset||t.scrollTop;null===this.lastScrollPosition&&(this.lastScrollPosition={x:e,y:i});var n=this.lastScrollPosition.x-e,o=this.lastScrollPosition.y-i,s=this.options.scrollThreshold;(Math.abs(o)>=s||Math.abs(n)>=s)&&(this.lastScrollPosition=null,this.close())},keydown:function(t){var e;("Escape"===((e=t).key||e.code)||27===e.keyCode)&&(this.released?this.close():this.release(this.close))},mousedown:function(t){if(o(t)&&!s(t)){t.preventDefault();var e=t.clientX,i=t.clientY;this.pressTimer=setTimeout(function(){this.grab(e,i)}.bind(this),200)}},mousemove:function(t){this.released||this.move(t.clientX,t.clientY)},mouseup:function(t){o(t)&&!s(t)&&(clearTimeout(this.pressTimer),this.released?this.close():this.release())},touchstart:function(t){t.preventDefault();var e=t.touches[0],i=e.clientX,n=e.clientY;this.pressTimer=setTimeout(function(){this.grab(i,n)}.bind(this),200)},touchmove:function(t){if(!this.released){var e=t.touches[0],i=e.clientX,n=e.clientY;this.move(i,n)}},touchend:function(t){void t.targetTouches.length||(clearTimeout(this.pressTimer),this.released?this.close():this.release())},clickOverlay:function(){this.close()},resizeWindow:function(){this.close()}},m={init:function(e){this.el=document.createElement("div"),this.instance=e,this.parent=document.body,n(this.el,{position:"fixed",top:0,left:0,right:0,bottom:0,opacity:0}),this.updateStyle(e.options),t(this.el,"click",e.handler.clickOverlay.bind(e))},updateStyle:function(t){n(this.el,{zIndex:t.zIndex,backgroundColor:t.bgColor,transition:"opacity\n        "+t.transitionDuration+"s\n        "+t.transitionTimingFunction})},insert:function(){this.parent.appendChild(this.el)},remove:function(){this.parent.removeChild(this.el)},fadeIn:function(){this.el.offsetWidth,this.el.style.opacity=this.instance.options.bgOpacity},fadeOut:function(){this.el.style.opacity=0}},g="function"==typeof Symbol&&"symbol"==_typeof(Symbol.iterator)?function(t){return"undefined"==typeof t?"undefined":_typeof(t)}:function(t){return t&&"function"==typeof Symbol&&t.constructor===Symbol&&t!==Symbol.prototype?"symbol":"undefined"==typeof t?"undefined":_typeof(t)},v=function(){function t(t,e){for(var i=0;i<e.length;i++){var n=e[i];n.enumerable=n.enumerable||!1,n.configurable=!0,"value"in n&&(n.writable=!0),Object.defineProperty(t,n.key,n)}}return function(e,i,n){return i&&t(e.prototype,i),n&&t(e,n),e}}(),b=Object.assign||function(t){for(var e=1;e<arguments.length;e++){var i=arguments[e];for(var n in i)Object.prototype.hasOwnProperty.call(i,n)&&(t[n]=i[n])}return t},w={init:function(t,e){this.el=t,this.instance=e,this.srcThumbnail=this.el.getAttribute("src"),this.srcset=this.el.getAttribute("srcset"),this.srcOriginal=i(this.el),this.rect=this.el.getBoundingClientRect(),this.translate=null,this.scale=null,this.styleOpen=null,this.styleClose=null},zoomIn:function(){var t=this.instance.options,e=t.zIndex,i=t.enableGrab,o=t.transitionDuration,s=t.transitionTimingFunction;this.translate=this.calculateTranslate(),this.scale=this.calculateScale(),this.styleOpen={position:"relative",zIndex:e+1,cursor:i?u:c,transition:"transform\n        "+o+"s\n        "+s,transform:"translate3d("+this.translate.x+"px, "+this.translate.y+"px, 0px)\n        scale("+this.scale.x+","+this.scale.y+")",height:this.rect.height+"px",width:this.rect.width+"px"},this.el.offsetWidth,this.styleClose=n(this.el,this.styleOpen,!0)},zoomOut:function(){this.el.offsetWidth,n(this.el,{transform:"none"})},grab:function(t,e,i){var o=r(),s=o.x-t,l=o.y-e;n(this.el,{cursor:d,transform:"translate3d(\n        "+(this.translate.x+s)+"px, "+(this.translate.y+l)+"px, 0px)\n        scale("+(this.scale.x+i)+","+(this.scale.y+i)+")"})},move:function(t,e,i){var o=r(),s=o.x-t,l=o.y-e;n(this.el,{transition:"transform",transform:"translate3d(\n        "+(this.translate.x+s)+"px, "+(this.translate.y+l)+"px, 0px)\n        scale("+(this.scale.x+i)+","+(this.scale.y+i)+")"})},restoreCloseStyle:function(){n(this.el,this.styleClose)},restoreOpenStyle:function(){n(this.el,this.styleOpen)},upgradeSource:function(){if(this.srcOriginal){var t=this.el.parentNode;this.srcset&&this.el.removeAttribute("srcset");var e=this.el.cloneNode(!1);e.setAttribute("src",this.srcOriginal),e.style.position="fixed",e.style.visibility="hidden",t.appendChild(e),setTimeout(function(){this.el.setAttribute("src",this.srcOriginal),t.removeChild(e)}.bind(this),50)}},downgradeSource:function(){this.srcOriginal&&(this.srcset&&this.el.setAttribute("srcset",this.srcset),this.el.setAttribute("src",this.srcThumbnail))},calculateTranslate:function(){var t=r(),e=this.rect.left+this.rect.width/2,i=this.rect.top+this.rect.height/2;return{x:t.x-e,y:t.y-i}},calculateScale:function(){var t=this.el.dataset,e=t.zoomingHeight,i=t.zoomingWidth,n=this.instance.options,o=n.customSize,s=n.scaleBase;if(!o&&e&&i)return{x:i/this.rect.width,y:e/this.rect.height};if(o&&"object"===(void 0===o?"undefined":g(o)))return{x:o.width/this.rect.width,y:o.height/this.rect.height};var l=this.rect.width/2,a=this.rect.height/2,h=r(),c=(h.x-l)/l,u=(h.y-a)/a,d=s+Math.min(c,u);if(o&&"string"==typeof o){var f=i||this.el.naturalWidth,p=e||this.el.naturalHeight,y=parseFloat(o)*f/(100*this.rect.width),m=parseFloat(o)*p/(100*this.rect.height);if(y<d||m<d)return{x:y,y:m}}return{x:d,y:d}}};return function(){function n(t){!function(t,e){if(!(t instanceof e))throw new TypeError("Cannot call a class as a function")}(this,n),this.target=Object.create(w),this.overlay=Object.create(m),this.handler=Object.create(y),this.body=document.body,this.shown=!1,this.lock=!1,this.released=!0,this.lastScrollPosition=null,this.pressTimer=null,this.options=b({},p,t),this.overlay.init(this),this.handler.init(this)}return v(n,[{key:"listen",value:function(n){if("string"==typeof n)for(var o=document.querySelectorAll(n),s=o.length;s--;)this.listen(o[s]);else"IMG"===n.tagName&&(n.style.cursor=h,t(n,"click",this.handler.click),this.options.preloadImage&&e(i(n)));return this}},{key:"config",value:function(t){return t?(b(this.options,t),this.overlay.updateStyle(this.options),this):this.options}},{key:"open",value:function(i){var n=this,o=1<arguments.length&&void 0!==arguments[1]?arguments[1]:this.options.onOpen;if(!this.shown&&!this.lock){var s="string"==typeof i?document.querySelector(i):i;if("IMG"===s.tagName){if(this.options.onBeforeOpen(s),this.target.init(s,this),!this.options.preloadImage){var r=this.target.srcOriginal;null!=r&&(this.options.onImageLoading(s),e(r,this.options.onImageLoaded))}return this.shown=!0,this.lock=!0,this.target.zoomIn(),this.overlay.insert(),this.overlay.fadeIn(),t(document,"scroll",this.handler.scroll),t(document,"keydown",this.handler.keydown),this.options.closeOnWindowResize&&t(window,"resize",this.handler.resizeWindow),t(s,"transitionend",function a(){t(s,"transitionend",a,!1),n.lock=!1,n.target.upgradeSource(),n.options.enableGrab&&l(document,n.handler,!0),o(s)}),this}}}},{key:"close",value:function(){var e=this,i=0<arguments.length&&void 0!==arguments[0]?arguments[0]:this.options.onClose;if(this.shown&&!this.lock){var n=this.target.el;return this.options.onBeforeClose(n),this.lock=!0,this.body.style.cursor=a,this.overlay.fadeOut(),this.target.zoomOut(),t(document,"scroll",this.handler.scroll,!1),t(document,"keydown",this.handler.keydown,!1),this.options.closeOnWindowResize&&t(window,"resize",this.handler.resizeWindow,!1),t(n,"transitionend",function o(){t(n,"transitionend",o,!1),e.shown=!1,e.lock=!1,e.target.downgradeSource(),e.options.enableGrab&&l(document,e.handler,!1),e.target.restoreCloseStyle(),e.overlay.remove(),i(n)}),this}}},{key:"grab",value:function(e,i){var n=2<arguments.length&&void 0!==arguments[2]?arguments[2]:this.options.scaleExtra,o=3<arguments.length&&void 0!==arguments[3]?arguments[3]:this.options.onGrab;if(this.shown&&!this.lock){var s=this.target.el;return this.options.onBeforeGrab(s),this.released=!1,this.target.grab(e,i,n),t(s,"transitionend",function r(){t(s,"transitionend",r,!1),o(s)}),this}}},{key:"move",value:function(e,i){var n=2<arguments.length&&void 0!==arguments[2]?arguments[2]:this.options.scaleExtra,o=3<arguments.length&&void 0!==arguments[3]?arguments[3]:this.options.onMove;if(this.shown&&!this.lock){this.released=!1,this.body.style.cursor=d,this.target.move(e,i,n);var s=this.target.el;return t(s,"transitionend",function r(){t(s,"transitionend",r,!1),o(s)}),this}}},{key:"release",value:function(){var e=this,i=0<arguments.length&&void 0!==arguments[0]?arguments[0]:this.options.onRelease;if(this.shown&&!this.lock){var n=this.target.el;return this.options.onBeforeRelease(n),this.lock=!0,this.body.style.cursor=a,this.target.restoreOpenStyle(),t(n,"transitionend",function o(){t(n,"transitionend",o,!1),e.lock=!1,e.released=!0,i(n)}),this}}}]),n}()});document.addEventListener('DOMContentLoaded',function(){new Zooming().listen('[data-action="zoom"]')});</script></body>
+      
+   
+   
+<!-- Mirrored from paystack.com/blog/engineering-design/music by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 May 2021 15:31:42 GMT -->
+</html>

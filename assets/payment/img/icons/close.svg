@@ -1,0 +1,18 @@
+<svg width="10" height="10" viewBox="0 0 10 10" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:figma="http://www.figma.com/figma/ns">
+  <title>
+    close
+  </title>
+  <desc>
+    Created using Figma
+  </desc>
+  <g figma:type="frame">
+    <use xlink:href="#a" figma:type="vector"/>
+    <use xlink:href="#b" transform="rotate(-45 9.24 -.566)" figma:type="vector"/>
+    <use xlink:href="#c" transform="rotate(-44.99 5.938 -1.936)" figma:type="vector"/>
+  </g>
+  <defs>
+    <path id="a" d="M5 10c-.99 0-1.956-.293-2.778-.843C1.4 8.607.76 7.827.382 6.913 0 6-.1 4.993.095 4.025c.193-.97.67-1.86 1.368-2.56.7-.7 1.59-1.176 2.56-1.37C4.993-.097 6 .002 6.913.38c.913.38 1.694 1.02 2.243 1.843.55.822.843 1.79.843 2.778-.004 1.326-.53 2.596-1.468 3.534C7.595 9.47 6.325 9.997 5 10zM5 .743c-.842 0-1.665.25-2.365.717-.7.468-1.246 1.133-1.568 1.91C.745 4.15.66 5.006.825 5.83c.164.826.57 1.585 1.165 2.18.595.596 1.354 1 2.18 1.165.825.165 1.68.08 2.46-.242.777-.322 1.442-.868 1.91-1.568.467-.7.717-1.523.717-2.365 0-1.13-.45-2.21-1.248-3.01C7.21 1.194 6.13.745 5 .744z"/>
+    <path id="b" d="M4.613 0H0v.74h4.613V0z"/>
+    <path id="c" d="M.74 0H0v4.613h.74V0z"/>
+  </defs>
+</svg>
