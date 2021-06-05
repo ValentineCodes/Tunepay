@@ -30,7 +30,7 @@
         class="ng-binding">Signup - TunePay</title>
     <meta name="description" content="TunePay - Accept payments online">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <link rel="icon" href="favicon.ico">
+    <link rel="icon" href="favicon.png">
     <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/icons/favicon-16x16.png">
@@ -2388,13 +2388,20 @@
     <div class="app ng-scope" id="app" ng-show="i18nextReady" ui-view="">
         <div class="access-screen ng-scope">
             <div class="access-screen-logo">
-                <a href="https://paystack.com/" title="TunePay">
-                    <img ng-show="isAggregator &amp;&amp; $state.current.name === 'access.signup'"
-                        class="max-h-100 ng-hide" ng-src="/assets-signup/img/logo.svg" alt="Organization logo"
-                        src="/assets-signup/img/logo.svg">
-                    <img ng-show="!(isAggregator &amp;&amp; $state.current.name === 'access.signup')"
-                        src="/assets-signup/img/logo.svg" alt="paystack logo">
-                </a>
+               <a href="index.html" title="TunePay">
+            <h1 style="color: white; font-weight: bolder;">
+              <img
+                src="images/tunepay_logo.png"
+                alt="logo"
+                style="
+                  width: 50px;
+                  height: 50px;
+                  margin-bottom: 20px;
+                  margin-right: -12px;
+                "
+              />pay
+            </h1>
+          </a>
             </div>
             <!-- uiView:  -->
             <div ui-view="" class="ng-scope">

@@ -37,7 +37,7 @@
 }
 a.active,
 a:hover {
-  border-left: 5px solid #b93632;
+  border-left: 5px solid #078ebf;
   color: #078ebf;
 }
 .sidebar a i {
@@ -59,12 +59,12 @@ label #cancel {
   border-radius: 5px;
   border: 1px solid #262626;
   margin: 15px 30px;
-  font-size: 29px;
-  background: #262626;
-  height: 45px;
-  width: 45px;
+  font-size: 20px;
+  background: #011b33;
+  height: 35px;
+  width: 35px;
   text-align: center;
-  line-height: 45px;
+  line-height: 35px;
   transition: all 0.5s ease;
 }
 label #cancel {

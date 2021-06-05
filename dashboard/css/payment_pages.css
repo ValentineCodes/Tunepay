@@ -40,7 +40,7 @@ html {
 
 .new-page-button {
   background-color: #5c5;
-  padding: 10px 20px;
+  padding: 7px 10px;
   border-radius: 10px;
   color: white;
   margin-right: 10px;
@@ -70,8 +70,9 @@ section table {
   border: 1px solid #ddd;
 }
 .popup {
-  position: absolute;
-  top: 0;
+  position: fixed;
+  top: 0px;
+  bottom: 0px;
   width: 100%;
   height: 100%;
   background-color: rgba(200, 200, 200, 0.5);
@@ -103,6 +104,8 @@ section table {
   flex-direction: column;
   align-items: center;
   width: 40rem;
+  overflow-y: scroll;
+  height: 90%;
 }
 .content form {
   width: 90%;
@@ -151,6 +154,7 @@ section table {
 }
 .inline-input {
   margin-top: 10px;
+  width: 100%;
 }
 .inline-input input {
   width: 43%;
@@ -165,14 +169,34 @@ footer {
   width: 100%;
   margin-top: 50px;
 }
-.footer-cancel {
+.new-page-cancel-button {
   background-color: #fbfbfb;
-  padding: 10px 20px;
+  padding: 10px 15px;
   border-radius: 10px;
   border: 1px solid #ddd;
   color: #aaa;
   margin-right: 10px;
   font-weight: bold;
-  font-size: large;
+  font-size: medium;
   cursor: pointer;
+}
+.new-page-create-button {
+  background-color: #5c5;
+  padding: 10px 15px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  color: white;
+  margin-right: 10px;
+  font-weight: bold;
+  font-size: medium;
+  cursor: pointer;
+}
+
+@media all and (max-width: 650px) {
+  .content {
+    width: 85%;
+  }
+  .new-page-button {
+    font-size: medium;
+  }
 }

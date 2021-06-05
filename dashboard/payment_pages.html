@@ -2,7 +2,7 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8" />
-    <!-- <title>Responsive Sidebar Menu</title> -->
+    <title>Pages - TunePay</title>
 
     <link rel="stylesheet" href="style.css" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -53,11 +53,22 @@
 
     <div class="page-header">
       <div>
-        <span>Filter</span>
+        <!-- Filter Button -->
+        <span
+          ><i
+            class="fas fa-filter"
+            style="font-size: small; margin-right: 5px"
+          ></i
+          >Filter</span
+        >
+
+        <!-- Search Input -->
         <span>
           <input type="text" placeholder="Search Page" />
         </span>
       </div>
+
+      <!-- New Page Button -->
       <button
         onclick="document.getElementById('popup1').style.display='block'"
         class="new-page-button"
@@ -105,15 +116,6 @@
               type="text"
               placeholder="Page description or extra instructions"
             />
-          </div>
-
-          <div class="form-element">
-            <label>SEO Image(Optional)</label>
-            <p>
-              This image will show when the page is shared on social media. We
-              recommend a 1024 x 512 pixel JPG or PNG, under 1 MB in size.
-            </p>
-            <input type="file" name="seo-image" />
           </div>
 
           <div style>
@@ -166,10 +168,12 @@
             <input type="text" placeholder="Email address" />
           </div>
 
-          <label>Do you want to collect any extra information?</label>
-          <div class="inline-input">
-            <input type="text" placeholder="Name of field" disabled />
-            <input type="text" placeholder="e.g ID Number" />
+          <div class="form-element">
+            <label>Do you want to collect any extra information?</label>
+            <div class="inline-input">
+              <input type="text" placeholder="Name of field" disabled />
+              <input type="text" placeholder="e.g ID Number" />
+            </div>
           </div>
         </form>
         <!-- <a class="add-field">+ Add Another Field </a> -->
@@ -177,12 +181,12 @@
         <footer>
           <button
             onclick="document.getElementById('popup1').style.display='none'"
-            class="footer-cancel"
+            class="new-page-cancel-button"
           >
             Cancel
           </button>
 
-          <button class="new-page-button">Create</button>
+          <button class="new-page-create-button">Create</button>
         </footer>
       </div>
     </div>
