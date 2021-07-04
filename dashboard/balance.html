@@ -7,18 +7,22 @@
     <link rel="stylesheet" href="style.css" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x"
+      crossorigin="anonymous"
+    />
+    <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
     />
     <link rel="stylesheet" href="css/sidebar.css" />
+    <link rel="stylesheet" href="css/balance.css" />
   </head>
 
   <body>
     <input type="checkbox" id="check" />
-    <label for="check">
-      <i class="fas fa-bars" id="btn"></i>
-      <i class="fas fa-times" id="cancel"></i>
-    </label>
+
     <div class="sidebar">
       <header>Account Name</header>
       <a href="home.html">
@@ -41,12 +45,263 @@
         <i class="fas fa-wallet"></i>
         <span>Balance</span>
       </a>
+      <a href="balance.html">
+        <i class="fas fa-wallet"></i>
+        <span>Settings</span>
+      </a>
     </div>
 
+
+
     <!-- Content -->
-    <h1 style="text-align: center; position: relative; top: 600px">
-      BALANCE PAGE<br />
-      Be One With StackOverflow My Brethren!... For She is Thy Savior!!!
-    </h1>
+<div class="right-panel">
+     <div class="header">
+      <div>
+          <label for="check">
+            <i class="fas fa-bars" id="btn"></i>
+            <i class="fas fa-times" id="cancel"></i>
+          </label>
+          <h4 class="header__title">Balance</h4>
+        </div>
+
+   <div class="header__right">
+          <!-- Notifications Dropdown -->
+          <ion-icon
+            class="header__notification-icon"
+            name="notifications-outline"
+          ></ion-icon>
+
+          <div class="dropdown">
+            <button
+              class="dropdown-toggle"
+              id="dropdownMenuButton1"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              <i class="far fa-user-circle" style="font-size: x-large"></i>
+            </button>
+
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+              <li>
+                <a class="dropdown-item" href="#"
+                  ><ion-icon name="person-outline"></ion-icon>
+                  <span>Profile</span></a
+                >
+              </li>
+              <li>
+                <a class="dropdown-item" href="#"
+                  ><ion-icon name="person-outline"></ion-icon>
+                  <span>Payout Accounts</span></a>
+              </li>
+              <li>
+                <a class="dropdown-item" href="#"
+                  ><ion-icon name="person-outline"></ion-icon>
+                  <span>Preferences</span></a
+                >
+              </li>
+              <div class="dropdown-divider"></div>
+              <li>
+                <a class="dropdown-item" href="#"
+                  ><ion-icon name="exit-outline"></ion-icon>
+                  <span>Log Out</span></a
+                >
+              </li>
+            </ul>
+          </div>
+        </div>
+    </div>
+
+    <div class='body'>
+      <section class='main-content'>
+        <section class="main-content--header">
+          <div class="dropdown" id="filter">
+            <button
+              class="dropdown-toggle"
+              id="filter__toggle-btn"
+              type="button"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              <ion-icon name="funnel"></ion-icon> Filter
+            </button>
+
+            <div class="dropdown-menu" id="filter__dropdown" style="width:300px">
+              <form class="px-4 py-3">
+                <div class="form-group">
+                  <label for="currency">Currency</label>
+                    <select name="currency" id="currency" class="form-control">
+                      <option value="0">NGN</option>
+                      <option value="1">USD</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                  <label for="type">Type</label>
+                  <select name="tx-type" id="type" class="form-control">
+                        <option value="0">NGN</option>
+                        <option value="1">USD</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label for="period">Date Period</label>
+                  <select name="currency" id="period" class="form-control">
+                    <option value="0">NGN</option>
+                    <option value="1">USD</option>
+                  </select>
+                </div>
+
+                <footer>
+                  <button class="filter__dropdown-btn btn--reset">Reset</button>
+
+                  <button class="filter__dropdown-btn btn--filter">Topup</button>
+                </footer>
+              </form>
+            </div>
+          </div>
+
+          <div class="dropdown">
+            <button
+              class="dropdown-toggle btn btn-success"
+              id="filter"
+              type="button"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+              style='background-color:#5c5; font-size: small; font-weight: bold; border:none'
+            >
+              Export CSV
+            </button>
+
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+              <li>
+                <a class="dropdown-item" href="#"><ion-icon name="paper-plane-outline"></ion-icon>
+                  <span>Send CSV to email</span>
+                </a>
+              </li>
+              <li>
+                <a class="dropdown-item" href="#"><ion-icon name="download-outline"></ion-icon>
+                  <span>Quick Download</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </section>
+
+         <table>
+           <tr class="table-header" style="background-color: white;">
+             <th><ion-icon name="arrow-down-outline" style="color:#ccc;"></ion-icon></th>
+             <th>Date</th>
+             <th>Activity</th>
+             <th>Detail</th>
+             <th>Change</th>
+             <th>Balance After</th>
+           </tr>
+
+           
+            <tr>
+              <td><ion-icon name="arrow-down-outline" style="color:#5c5;"></ion-icon></td>
+              <td>June 12, 2021</td>
+              <td><span>Transaction</span></td>
+              <td>Payment from Checkout</td>
+              <td>8,000.00</td>
+              <td>NGN 47,000.00</td>
+            </tr>
+           
+            <tr>
+              <td><ion-icon name="arrow-down-outline" style="color:#5c5;"></ion-icon></td>
+              <td>June 12, 2021</td>
+              <td><span>Transaction</span></td>
+              <td>Payment from Checkout</td>
+              <td>8,000.00</td>
+              <td>NGN 47,000.00</td>
+            </tr>
+           
+            <tr>
+              <td><ion-icon name="arrow-down-outline" style="color:#5c5;"></ion-icon></td>
+              <td>June 12, 2021</td>
+              <td><span>Transaction</span></td>
+              <td>Payment from Checkout</td>
+              <td>8,000.00</td>
+              <td>NGN 47,000.00</td>
+            </tr>
+           
+            <tr>
+              <td><ion-icon name="arrow-down-outline" style="color:#5c5;"></ion-icon></td>
+              <td>June 12, 2021</td>
+              <td><span>Transaction</span></td>
+              <td>Payment from Checkout</td>
+              <td>8,000.00</td>
+              <td>NGN 47,000.00</td>
+            </tr>
+          </table>
+      </section>
+      
+
+     
+
+
+     <aside>
+        <p>NGN</p>
+
+        <hr />
+
+        <h6>Next Payout</h6>
+
+        <h4>8,000.00</h4>
+        <p>Due Monday, June 21</p>
+
+        <button style="margin-bottom: 30px"  onclick="document.getElementById('topup-popup').style.display='flex'">Topup</button>
+
+        <hr />
+      </aside>
+      
+      </div>
+
+       <section id="topup-popup">
+        <div>
+          
+          <h6>Topup Balance</h6>
+
+          <hr />
+
+           <div class="form-element">
+            <label>Choose Balance</label>
+            <select name="currency" class="currency-select" required="">
+              <option value="0">NGN</option>
+              <option value="1">USD</option>
+            </select>
+          </div>
+
+          <div class="form-element">
+            <label>Amount</label>
+            <input type="number" placeholder="Amount to topup" required />
+            <p>Maximum topup amount is NGN 100</p>
+          </div>
+
+
+           <footer>
+          <button
+            onclick="document.getElementById('topup-popup').style.display='none'"
+          >
+            Cancel
+          </button>
+
+          <button>Topup</button>
+        </footer>
+        </div>
+      </section>
+    
+    
+
+    <script
+      type="module"
+      src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"
+      crossorigin="anonymous"
+    ></script>
+  </body>
   </body>
 </html>

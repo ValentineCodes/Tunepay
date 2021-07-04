@@ -7,6 +7,12 @@
     <link rel="stylesheet" href="style.css" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x"
+      crossorigin="anonymous"
+    />
+    <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
     />
@@ -17,10 +23,6 @@
   <body>
     <!-- Sidebar -->
     <input type="checkbox" id="check" />
-    <label for="check">
-      <i class="fas fa-bars" id="btn"></i>
-      <i class="fas fa-times" id="cancel"></i>
-    </label>
     <div class="sidebar">
       <header>Account Name</header>
       <a href="home.html">
@@ -43,62 +45,200 @@
         <i class="fas fa-wallet"></i>
         <span>Balance</span>
       </a>
+      <a href="balance.html">
+        <i class="fas fa-wallet"></i>
+        <span>Settings</span>
+      </a>
     </div>
 
     <!-- Header -->
 
+    <div class="right-panel">
     <div class="header">
-      <h3>Payment Pages</h3>
-    </div>
+       <div>
+          <label for="check">
+            <i class="fas fa-bars" id="btn"></i>
+            <i class="fas fa-times" id="cancel"></i>
+          </label>
+          <h4 class="header__title">Pages</h4>
+        </div>
+
+       <div class="header__right">
+          <!-- Notifications Dropdown -->
+          <ion-icon
+            class="header__notification-icon"
+            name="notifications-outline"
+          ></ion-icon>
+
+          <div class="dropdown">
+            <button
+              class="dropdown-toggle"
+              id="dropdownMenuButton1"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              <i class="far fa-user-circle" style="font-size: x-large"></i>
+            </button>
+
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+              <li>
+                <a class="dropdown-item" href="#"
+                  ><ion-icon name="person-outline"></ion-icon>
+                  <span>Profile</span></a
+                >
+              </li>
+              <li>
+                <a class="dropdown-item" href="#"
+                  ><ion-icon name="person-outline"></ion-icon>
+                  <span>Payout Accounts</span></a
+                >
+              </li>
+              <li>
+                <a class="dropdown-item" href="#"
+                  ><ion-icon name="person-outline"></ion-icon>
+                  <span>Preferences</span></a
+                >
+              </li>
+              <div class="dropdown-divider"></div>
+              <li>
+                <a class="dropdown-item" href="#"
+                  ><ion-icon name="exit-outline"></ion-icon>
+                  <span>Log Out</span></a
+                >
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+   
 
     <div class="page-header">
-      <div>
+      <div class="page-header-left">
         <!-- Filter Button -->
-        <span
-          ><i
-            class="fas fa-filter"
-            style="font-size: small; margin-right: 5px"
-          ></i
-          >Filter</span
-        >
+        <div class="dropdown" id="filter">
+            <button
+              class="dropdown-toggle"
+              id="filter__toggle-btn"
+              type="button"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              <ion-icon name="funnel"></ion-icon> Filter
+            </button>
+
+            <div class="dropdown-menu" id="filter__dropdown" style="width:300px">
+              <form class="px-4 py-3">
+                <div class="form-group">
+                  <label for="currency">Currency</label>
+                    <select name="currency" id="currency" class="form-control">
+                      <option value="0">NGN</option>
+                      <option value="1">USD</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                  <label for="type">Type</label>
+                  <select name="tx-type" id="type" class="form-control">
+                        <option value="0">NGN</option>
+                        <option value="1">USD</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label for="period">Date Period</label>
+                  <select name="currency" id="period" class="form-control">
+                    <option value="0">NGN</option>
+                    <option value="1">USD</option>
+                  </select>
+                </div>
+
+                <footer>
+                  <button class="filter__dropdown-btn btn--reset">Reset</button>
+
+                  <button class="filter__dropdown-btn btn--filter">Topup</button>
+                </footer>
+              </form>
+            </div>
+          </div>
 
         <!-- Search Input -->
         <span>
-          <input type="text" placeholder="Search Page" />
+          <input type="text" class="form-control" placeholder="Search Page"/>
         </span>
       </div>
 
       <!-- New Page Button -->
       <button
         onclick="document.getElementById('popup1').style.display='block'"
-        class="new-page-button"
+        class="btn btn-success"
+        type="button"
+        style='background-color:#5c5; font-size: small; font-weight: bold; border:none'
       >
-        <span>+</span> New Page
+        + New Page
       </button>
+      
     </div>
 
     <!-- Pages -->
-    <section>
+    <section class="table-container">
       <table>
-        <tr>
-          <th><i class="fas fa-circle" style="font-size: 10px"></i></th>
-          <th>Name</th>
-          <th>Type</th>
-          <th>Amount</th>
-          <th>Created</th>
-          <th>Link</th>
-        </tr>
-      </table>
-    </section>
+           <tr class="table-header" style="background-color: white;">
+             <th><ion-icon name="radio-button-on" style="font-size:x-small;"></ion-icon></th>
+             <th>Name</th>
+             <th>Type</th>
+             <th>Amount</th>
+             <th>Created</th>
+             <th>Link</th>
+           </tr>
 
-    <!-- Mew Payment Page Form -->
+           
+            <tr>
+              <td><ion-icon name="radio-button-on" style="color:#5c5; font-size:x-small;"></ion-icon></td>
+              <td>Waters Elile</td>
+              <td><span>Payment</span></td>
+              <td>NGN 8,000.00</td>
+              <td>June 1, 2021</td>
+              <td><a href="#">Preview</a></td>
+            </tr>
+           
+            <tr>
+              <td><ion-icon name="radio-button-on" style="color:#5c5; font-size:x-small;"></ion-icon></td>
+              <td>Waters Elile</td>
+              <td><span>Payment</span></td>
+              <td>NGN 8,000.00</td>
+              <td>June 1, 2021</td>
+              <td><a href="#">Preview</a></td>
+            </tr>
+           
+            <tr>
+              <td><ion-icon name="radio-button-on" style="color:#5c5; font-size:x-small;"></ion-icon></td>
+              <td>Waters Elile</td>
+              <td><span>Payment</span></td>
+              <td>NGN 8,000.00</td>
+              <td>June 1, 2021</td>
+              <td><a href="#">Preview</a></td>
+            </tr>
+           
+            <tr>
+              <td><ion-icon name="radio-button-on" style="color:#5c5; font-size:x-small;"></ion-icon></td>
+              <td>Waters Elile</td>
+              <td><span>Payment</span></td>
+              <td>NGN 8,000.00</td>
+              <td>June 1, 2021</td>
+              <td><a href="#">Preview</a></td>
+            </tr>
+            </table>
+    </section>
+  </div>
+
+    <!-- Mew Payment Page Form -- Popup -->
     <div class="popup" id="popup1">
       <div class="content">
         <div
           onclick="document.getElementById('popup1').style.display='none'"
           class="close-btn"
         >
-          X
+          x
         </div>
         <h4>New Payment Page</h4>
 
@@ -107,13 +247,14 @@
         <form>
           <div class="form-element">
             <label>Page name</label>
-            <input type="text" placeholder="Name of your page" required />
+            <input type="text" class="form-control" placeholder="Name of your page" required />
           </div>
 
           <div class="form-element">
             <label>Description</label>
             <input
               type="text"
+              class="form-control"
               placeholder="Page description or extra instructions"
             />
           </div>
@@ -134,7 +275,7 @@
 
           <div class="form-element">
             <label>Currency</label>
-            <select name="currency" class="currency-select" required="">
+            <select name="currency" class="form-control currency-select" required="">
               <option value="0">NGN</option>
               <option value="1">USD</option>
             </select>
@@ -148,31 +289,31 @@
                 placeholder="https://tunepay.com/pay/"
                 disabled
               />
-              <input type="text" placeholder="[your-url]" />
+              <input type="text" class="form-control" placeholder="[your-url]" />
             </div>
           </div>
 
           <div class="form-element">
             <label>Redirect after payment</label>
-            <input type="text" placeholder="http://redirect.link" />
+            <input type="text" class="form-control" placeholder="http://redirect.link" />
           </div>
 
           <div class="form-element">
             <label>Success Message</label>
-            <input type="text" placeholder="Message to show after payment" />
+            <input type="text" class="form-control" placeholder="Message to show after payment" />
           </div>
 
           <div class="form-element">
             <label>Send Notifications To</label>
             <p>If provided, this email address will get transaction notices</p>
-            <input type="text" placeholder="Email address" />
+            <input type="text" class="form-control" placeholder="Email address" />
           </div>
 
           <div class="form-element">
             <label>Do you want to collect any extra information?</label>
             <div class="inline-input">
               <input type="text" placeholder="Name of field" disabled />
-              <input type="text" placeholder="e.g ID Number" />
+              <input type="text" class="form-control" placeholder="e.g ID Number" />
             </div>
           </div>
         </form>
@@ -191,7 +332,7 @@
       </div>
     </div>
 
-    <script
+    <!-- <script
       src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
       integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
       crossorigin="anonymous"
@@ -204,6 +345,15 @@
     <script
       src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
       integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+      crossorigin="anonymous"
+    ></script> -->
+    <script
+      type="module"
+      src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"
+    ></script>
+     <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"
       crossorigin="anonymous"
     ></script>
   </body>
